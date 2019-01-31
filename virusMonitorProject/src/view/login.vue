@@ -262,6 +262,7 @@ export default {
       var password = $('#password').val()
       if (that.isCheckUser(user)) {
         if (localStorage.hasOwnProperty('userData')) {
+          that.data = JSON.parse(localStorage.userData)
           if (that.data.password.length === 64) {
             if (that.data.password.search(password) === 0) {
               that.data = {'username': user, 'password': that.data.password}

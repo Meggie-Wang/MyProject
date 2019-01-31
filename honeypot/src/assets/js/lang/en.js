@@ -56,10 +56,6 @@ export const messages = {
         component: 'AttackState'
       },
       {
-        name: 'Search',
-        component: 'Search'
-      },
-      {
         name: 'Log',
         component: 'Logs'
       },

@@ -499,6 +499,27 @@ export default {
     }
   },
   mounted() {
+    if (Number(this.$route.query.selected) === 2) {
+      for (let i in this.productType) {
+        if (this.$route.query.choice === String(this.productType[i].value)) {
+          this.selectedOptions_protype = this.productType[i].label
+        }
+      }
+    } else if (Number(this.$route.query.selected) === 3) {
+      for (let i in this.jeopardizedOptions) {
+        for (let j in this.jeopardizedOptions[i].children) {
+          if (this.$route.query.choice === this.jeopardizedOptions[i].children[j].value) {
+            this.jeopardized.push(this.jeopardizedOptions[i].label, this.jeopardizedOptions[i].children[j].label)
+          }
+        }
+      }
+    } else if (Number(this.$route.query.selected) === 4) {
+      for (let i in this.degreeHarm) {
+        if (this.$route.query.choice === this.degreeHarm[i].value) {
+          this.degreeHarmValue = this.degreeHarm[i].label
+        }
+      }
+    }
     this.searchMsg = this.$route.query.search
     if (location.href.indexOf('?') === -1) {
       this.urlChange(1, 'time', 1, this.$route.query.search)
@@ -599,7 +620,6 @@ export default {
     },
     // 改变url
     urlChange(selected, choice, page, search = '') {
-      console.log(search)
       location.href = location.href.split('?')[0] + '?selected=' + selected + '&choice=' + choice + '&page=' + page + '&search=' + search
     },
     // 搜索

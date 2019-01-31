@@ -56,10 +56,6 @@ export const messages = {
         component: 'AttackState'
       },
       {
-        name: '搜索',
-        component: 'Search'
-      },
-      {
         name: '日志',
         component: 'Logs'
       },

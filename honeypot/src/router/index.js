@@ -10,8 +10,6 @@ import UserPolicy from '@/view/UserPolicy'
 
 import Main from '@/view/pages/Main'
 import AttackState from '@/view/pages/AttackState'
-import Search from '@/view/pages/Search'
-import SearchDetail from '@/view/searchDetail/SearchDetail'
 import Logs from '@/view/pages/Logs'
 import Status from '@/view/pages/Status'
 import Help from '@/view/pages/Help'
@@ -43,15 +41,6 @@ const router = new Router({
           meta: {
             keepAlive: true
           }
-        },
-        {
-          path: '/Search',
-          name: 'Search',
-          component: Search
-        },
-        {
-          path: '/SearchDetail',
-          component: SearchDetail
         },
         {
           path: '/Logs',
