@@ -1,0 +1,236 @@
+/*button*/
+  .__btn {
+    border-radius: 5px;
+    border: none;
+  }
+  /*button size*/
+  .__btn-big {
+    padding: 10px;
+    font-size: 1rem;
+  }
+  .__btn-small {
+    padding: 6px;
+    font-size: .7rem;
+  }
+  /*button color*/
+  .__btn-primary {
+    background-color: $bgColor;
+    color: #fff;
+  }
+  .__btn-info {
+    background-color: #EBECEE;
+    color: #243D63;
+  }
+
+  .__beeTable ul {
+    display: flex;
+    width: 100%;
+    height: 2.5rem;
+    font-weight: bolder;
+    color: rgb(36,52,86);
+    text-align: center;
+    overflow: hidden;
+  }
+  .__beeTable ul li {
+    display: inline-block;
+    width: calc(20% - 4px);
+    line-height: 2.5rem;
+    margin: .05rem .1rem;
+    border: 1px solid rgb(36,52,86);
+    border-radius: 5px;
+  }
+
+/* scroll */
+  /*::-webkit-scrollbar {
+    width: 7px;
+    height: 5px;
+  }
+  ::-webkit-scrollbar-track-piece {
+    background-color: rgba(0, 0, 0, 0.2);
+    -webkit-border-radius: 6px;
+  }
+  ::-webkit-scrollbar-thumb:vertical {
+    height: 5px;
+    background-color: rgba(125, 125, 125, 0.7);
+    -webkit-border-radius: 6px;
+  }
+  ::-webkit-scrollbar-thumb:horizontal {
+    width: 5px;
+    background-color: rgba(125, 125, 125, 0.7);
+    -webkit-border-radius: 6px;
+  }*/
+
+/*responsive*/
+  .__row {
+    overflow: hidden;
+  }
+
+  .__col-5 {
+    float: left;
+    width: 5%;
+  }
+
+  .__col-10 {
+    float: left;
+    width: 10%;
+  }
+
+  .__col-15 {
+    float: left;
+    width: 15%;
+  }
+
+  .__col-20 {
+    float: left;
+    width: 20%;
+  }
+
+  .__col-25 {
+    float: left;
+    width: 25%;
+  }
+
+  .__col-30 {
+    float: left;
+    width: 30%;
+  }
+
+  .__col-35 {
+    float: left;
+    width: 35%;
+  }
+
+  .__col-40 {
+    float: left;
+    width: 40%;
+  }
+
+  .__col-45 {
+    float: left;
+    width: 45%;
+  }
+
+  .__col-50 {
+    float: left;
+    width: 50%;
+  }
+
+  .__col-55 {
+    float: left;
+    width: 55%;
+  }
+
+  .__col-60 {
+    float: left;
+    width: 60%;
+  }
+
+  .__col-65 {
+    float: left;
+    width: 65%;
+  }
+
+  .__col-70 {
+    float: left;
+    width: 70%;
+  }
+
+  .__col-75 {
+    float: left;
+    width: 75%;
+  }
+
+  .__col-80 {
+    float: left;
+    width: 80%;
+  }
+
+  .__col-85 {
+    float: left;
+    width: 85%;
+  }
+
+  .__col-90 {
+    float: left;
+    width: 90%;
+  }
+
+  .__col-95 {
+    float: left;
+    width: 95%;
+  }
+
+/*text-align*/
+  .__text-left {
+    text-align: left;
+  }
+  .__text-center {
+    text-align: center;
+  }
+  .__text-right {
+    text-align: right;
+  }
+
+/*common*/
+  .__aa {
+    box-sizing: border-box;
+    border: 1px solid red;
+  }
+
+  .__hide {
+    display: none!important;
+  }
+
+  .__textOver {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .__handCursor {
+    cursor: pointer;
+  }
+
+/*pagination*/
+  .pagination {
+    display: flex;
+    align-items: center;
+    height: 30px;
+    line-height: 30px;
+    margin-top: 1rem;
+  }
+  .pagination li {
+    margin-left: 1rem;
+  }
+  .pagination li a {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    min-width: 1.5rem;
+    height: 1.5rem;
+    white-space: nowrap;
+    border-radius: 2px;
+    outline: none;
+    user-select: none;
+  }
+  .page-item.active a {
+    color: #fff;
+    background-color: $bgColor;
+  }
+
+/*打印*/
+  .printShowTrans {
+    display: none;
+  }
+  @media print {
+    .printNewLine {
+      /*属性表示在此行后面加换行*/
+      page-break-after: always;
+    }
+    .printHide {
+      display: none;
+    }
+    .printShowTrans {
+      display: inline-block;
+    }
+  }

@@ -1,0 +1,131 @@
+html {
+  font-size: 14px;
+}
+#home {
+  height: 100%;
+  overflow: hidden;
+}
+.handCursor{
+  cursor: pointer;
+}
+/*change grid dragging background color*/
+.vue-grid-item.vue-grid-placeholder{
+  background-color: #fff!important;
+}
+.el-dropdown-menu {
+  padding: 0 10px !important;
+}
+.el-dropdown-menu__item:focus, .el-dropdown-menu__item:not(.is-disabled):hover {
+  color: #017d63 !important;
+}
+
+/*log pagination*/
+.el-pagination {
+  height: 30px;
+  line-height: 30px;
+}
+.el-pagination button {
+  color: #606266!important;
+  background: transparent!important;
+}
+.el-pagination .el-pager li {
+  min-width: 28px;
+  border-radius: 3px;
+  margin-right: 1rem;
+  background: rgba(255, 255, 255, .6);
+}
+.el-pagination .el-pager li:last-of-type {
+  margin-right: 0;
+}
+.el-pagination .number {
+  font-weight: 700;
+  color: #606266;
+}
+.el-pagination .number.active, .el-pagination .number:hover {
+  background: #017d63;
+  color: #fff;
+}
+
+/*statusTab el-input*/
+.statusTab .el-input__suffix {
+  display: flex;
+  align-items: center;
+}
+.statusTab .el-select:first-of-type .el-input:before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  background: url('../img/safetyMarking.png') center center / 100% 100% no-repeat;
+}
+.statusTab .el-select:last-of-type .el-input:before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  background: url('../img/statusTime.png') center center / 100% 100% no-repeat;
+}
+.statusTab .el-input__icon {
+  height: auto;
+}
+.statusTab .el-icon-arrow-up:before {
+  content: '';
+}
+.statusTab .el-icon-arrow-up {
+  background: url('../../assets/img/selectDown.png') center center / cover no-repeat;
+}
+.statusTab .el-input--suffix .el-input__inner {
+  color: #fff;
+  background: rgba(1, 100, 79, .9);
+  text-indent: 2rem;
+}
+.statusTab .el-input--suffix .el-input__inner::-webkit-input-placeholder {
+  color: #fff;
+}
+.statusTab .el-input--suffix .el-input__inner::-moz-placeholder {
+  color: #fff;
+  opacity: 1;
+}
+.el-select-dropdown__item.hover, .el-select-dropdown__item:hover, .el-select-dropdown__item.selected {
+  background-color: rgba(1, 100, 79, .9) !important;
+  color: #fff !important;
+}
+.el-scrollbar {
+  background: rgba(2, 155, 123, .9) !important;
+}
+.el-select-dropdown__item {
+  color: #fff !important;
+}
+
+/*el-collapse*/
+.el-collapse-item {
+  margin-top: 1rem;
+}
+.el-collapse-item__header {
+  height: 35px !important;
+  line-height: 35px !important;
+  background: #288770 !important;
+  color: #fff !important;
+  padding: 0 1rem;
+}
+.el-collapse-item__wrap {
+  border: 1px solid #288770 !important;
+}
+.el-icon-arrow-right:before {
+  display: none;
+}
+.el-icon-arrow-right {
+  display: inline-block;
+  width: 10px;
+  height: 20px;
+  margin-top: 7px;
+  background: url('../../assets/img/select.png') center center / cover no-repeat;
+}

@@ -1,0 +1,10 @@
+html,
+body,
+#app {
+  height: 100%;
+}
+#home {height: 100%}
+
+@media print {
+  .print-btn{display: none;}
+}

@@ -1,0 +1,44 @@
+/*table*/
+.depth-analysis-table-header-con,
+.depth-analysis-table-con {
+  border: 1px solid $textColor;
+  border-left-width: 0;
+  border-right-width: 0;
+  table {
+    width: 100%;
+    background: transparent;
+    box-sizing: border-box;
+    color: $textColor;
+    table-layout: fixed;
+    font-size: .8rem;
+  }
+  table tr td {
+    height: 40px;
+    box-sizing: border-box;
+    padding: 0 10px;
+    border: 1px solid $textColor;
+  }
+  table tr:first-child td {
+    border-top-width: 0;
+  }
+  table tr:last-child td {
+    border-bottom-width: 0;
+  }
+}
+.depth-analysis-table-con {
+  border-top-width: 0;
+}
+.depth-analysis-table-con table tr span {
+  display: block!important;
+  margin: 0 auto;
+}
+.data-null {
+  width: calc(100% - 1px);
+  box-sizing: border-box;
+  border-left: 1px solid $textColor;
+  border-right: 1px solid $textColor;
+  font-size: .8rem;
+  color: #999;
+  text-align: center;
+  padding: 15px 0;
+}

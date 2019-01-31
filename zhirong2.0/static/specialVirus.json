@@ -1,0 +1,22 @@
+[
+  {"name":"面向MEMS结构传感器的声波攻击","influence":"大型MEMS传感器","type":"特种病毒","ins":"面向MEMS结构传感器的声波攻击，利用特定频率声音在MEMS结构加速度传感器内部微型机械结构引起的共振效应，影响传感器内输入模拟信号到输出数字信号的转换过程，并利用了放大器饱和原理和调制原理等多重原理完成对传感器输出量的细致控制。","discribe":"@path:/iotVirusEncyclopedia1"},
+  {"name":"继电保护器攻击病毒","influence":"继电保护装置","type":"特种病毒","ins":"继电保护器主要是利用电力系统中元件发生短路或异常情况时的电气量的变化构成继电保护动作的原理","discribe":"@path:/iotVirusEncyclopedia2"},
+  {"name":"海豚音病毒","influence":"MEMS结构麦克风和驻极体式麦克风的语音系统","type":"特种病毒","ins":"海豚音病毒是一种以超声波为载体的特种病毒。该病毒可以无声地向语音系统注入恶意虚假语音，无法被人耳察觉，具有极高的隐蔽性。","discribe":"@path:/iotVirusEncyclopedia3"},
+  {"name":"PLC攻击","influence":"市面上绝大多数的PLC","type":"特种病毒","ins":"通过深入分析PLC液位仿真系统的控制逻辑，对PLC所实现生产工艺的详尽分析，找到控制过程中的关键环节，恶意攻击者修改相应的控制工艺，植入恶意操作","discribe":"@path:/iotVirusEncyclopedia4"},
+  {"name":"AngelFire","influence":"Windows系统 PC","type":"特种病毒","ins":"潜伏在基础设施（PC）内，当后续病毒植入式协助感染","discribe":"运行在Windows系统，包含五个组成部分，作为永久后门留存在被感染系统的分区引导扇区中，对目标系统进行永久远程控制，在目标计算机上加载、执行自定义植入物，从而控制系统"},
+  {"name":"dumbo","influence":"Windows系统 PC","type":"特种病毒","ins":"感染监控设备主机，使监控设备停止运行","discribe":"USB携带，插入目标PC运行，控制并干涉Windows 系统上网络摄像头、麦克风及其他监控设备，使目标上的音频及视频监控系统瘫痪"},
+  {"name":"Expresslane","influence":"PC","type":"特种病毒","ins":"泄露目标主机的所有数据（储存在秘密分区中）","discribe":"监控包括 FBI、DHS 和 NSA 等在内的情报联络机构并搜集数据的工具，该工具包含在CIA生物识别采集系统的更新程序中。泄露在受感染PC上的所有数据"},
+  {"name":"Athena","influence":"WindowsPC","type":"特种病毒","ins":"远程控制目标设备","discribe":"能够感染所有版本的Windows设备（Windows XP 至 Windows 10），最后实现对目标计算机的远程指挥及恶意程序加载。"},
+  {"name":"AfterMidnight","influence":"WindowsPC","type":"特种病毒","ins":"能够使目标设备停止工作","discribe":"在目标系统上进行动态载入，然后执行恶意payload，检测、破坏目标软件的功能"},
+  {"name":"Assassin ","influence":"WindowsPC","type":"特种病毒","ins":"能够使目标设备停止工作、执行特定任务","discribe":"在Windows服务进程中运行植入程序，允许攻击者在目标设备上运行恶意任务，整体作用与AfterMidnight非常类似。"},
+  {"name":"Archimedes","influence":"局域网内PC","type":"特种病毒","ins":"悄悄将设备的web浏览器重定向到攻击服务器","discribe":"通过感染此恶意软件并由CIA控制的计算机从LAN内的目标计算机重定向流量，将目标的计算机Web浏览器重定向到利用服务器同时显示为正常的浏览会话"},
+  {"name":"OutlawCountry","influence":"Linux","type":"特种病毒","ins":"流量重定向来窃取数据","discribe":"把目标计算机上的所有出站网络流量重定向到CIA控制的计算机系统，以便窃取或者注入数据。"},
+  {"name":"Elsa","influence":"支持WIFI的设备","type":"特种病毒","ins":"对设备的定位","discribe":"扫描可见的WiFi接入点，并定期记录ESS标识符，MAC地址和信号强度。如果目标设备连接上了网络，恶意程序就会自动尝试使用谷歌或微软的公共地理位置数据库进行地理位置匹配，并将经纬度数据及时间戳一起保存下来。"},
+  {"name":"Cherry Blossom","influence":"支持WIFI的设备","type":"特种病毒","ins":"对路由器的控制","discribe":"利用漏洞获取未经授权的访问权限并加载自定义的固件，从而入侵路由器和无线接入点（AP）。操作人员可以简单地通过CherryWeb网页控制台来给被植入设备发送任务"},
+  {"name":"Highrise","influence":"安卓手机","type":"特种病毒","ins":"将手机中所有消息重定向至目标服务器","discribe":"安卓恶意程序，可以拦截目标手机 SMS 消息并将其重定向至远程的 CIA 服务器上/窃取并发送目标手机所有短信"},
+  {"name":"couchpotato","influence":"网络摄像头","type":"特种病毒","ins":"抓取监控视频流（摄像头端）","discribe":"针对网络摄像头，能够收集RTSP/H.264视频流，收集视频并且保存为AVI文件，也可以对变化较大的视频帧抓取静态照片(JPG)。"},
+  {"name":"Weeping Angel","influence":"智能电视（三星）","type":"特种病毒","ins":"把电视变成监控设备","discribe":"将智能电视的麦克风转变为监控工具，记录内置麦克风的音频并输出或存储数据。"},
+  {"name":"Hive","influence":"视频监控系统","type":"特种病毒","ins":"窃取监控视频流（控制设备端）","discribe":"针对网络视频监控等系统的定制植入程序，并能实现多种平台植入任务的后台控制工作，协助CIA从植入恶意软件的目标机器中以HTTPS协议和数据加密方式执行命令和窃取数据"},
+  {"name":"Brutal Kangaroo","influence":"针对物理隔离网络","type":"特种病毒","ins":"针对物理隔离网络，感染网络内（包括移动）设备","discribe":""},
+  {"name":"Dark Matter","influence":"MAC等IOS设备","type":"特种病毒","ins":"监听IOS设备","discribe":"入侵苹果Mac和iOS设备的技术与工具，持续监听。"}
+]
