@@ -15,6 +15,7 @@ import BatchUpload from '@/view/home/sample/BatchUpload'
 import FreeUpload from '@/view/home/sample/FreeUpload'
 import DetectionQueue from '@/view/home/sample/DetectionQueue'
 import DetectionHistory from '@/view/home/sample/DetectionHistory'
+import UndetectSample from '@/view/home/sample/UndetectSample'
 import SampleReport from '@/view/home/sample/sampleReport'
 import ExportExcel from '@/view/home/sample/ExportExcel'
 
@@ -98,6 +99,16 @@ const router = new Router({
           component: DetectionHistory,
           meta: {
             title: '检测历史',
+            keepAlive: false,
+            isBackground: false
+          }
+        },
+        {
+          path: '/UndetectSample',
+          name: 'UndetectSample',
+          component: UndetectSample,
+          meta: {
+            title: '未检测样本',
             keepAlive: false,
             isBackground: false
           }

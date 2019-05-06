@@ -76,10 +76,9 @@
         v-for="(m, n) in allLable"
         :key="n">
           <h3 v-if="tagShow(m.enName)">{{m.name}}</h3>
-          <h4
-            v-if="allLable[n][m.enName].length === 0 && tagShow(m.enName)">无</h4>
+          <h4 v-if="allLable[n][m.enName].length === 0 && tagShow(m.enName)">无</h4>
           <el-tag
-            v-if="tagShow(m.enName)"
+            v-if="tagShow(m.enName) && m.enName !== 'iot'"
             v-for="(i, j) in allLable[n][m.enName]"
             :key="j">
               <div @click="editTag(i.cn_name); i.show = !i.show">
@@ -98,7 +97,8 @@
           <!-- iot -->
           <el-tabs
             v-if="m.enName === 'iot'"
-            v-model="tagTabActive" type="card">
+            v-model="tagTabActive"
+            type="card">
             <el-tab-pane
               v-for="(i, j) in allLable[n][m.enName]"
               :key="String(j.length === 2 ? j.slice(1, j.length) : j)"
@@ -139,6 +139,8 @@ export default {
       canEdit: false,
       existTags: [],
       allLable: [],
+      // 1, tags显示时候，判断existTags数据的存在，进而判断iot标签存在，并判断是否赋值tab默认显示
+      // 2，当样本检测记录不存在标签时候，existTags数据不存在，故，需要另外记录tab默认显示
       tagTabActive: '',
       highLightNum: 0,
       chooseTagsHere: [],
@@ -150,8 +152,9 @@ export default {
     dialogVisible (boolean) {
       if (boolean) {
         let _this = this
-        this.existTags.forEach(function (m, n) {
-          _this.allLable.forEach((element, index) => {
+
+        this.allLable.forEach((element, index) => {
+          _this.existTags.forEach(function (m, n) {
             if (element.enName !== 'iot') {
               element[element.enName].forEach((i, j) => {
                 if (m === i.cn_name) {
@@ -159,10 +162,6 @@ export default {
                 }
               })
             } else {
-              // tag Tab active
-              let iotKeys = Object.getOwnPropertyNames(element.iot)
-              _this.tagTabActive = iotKeys[0]
-
               for (let i in element.iot) {
                 element.iot[i].forEach((m, n) => {
                   if (_this.existTags.indexOf(m.cn_name) > -1) {
@@ -172,6 +171,11 @@ export default {
               }
             }
           })
+          if (element.enName === 'iot') {
+            // tag Tab active
+            let iotKeys = Object.keys(element.iot)
+            _this.tagTabActive = iotKeys[0]
+          }
         })
       } else {
         // 关闭修改label
@@ -327,7 +331,6 @@ export default {
       }
     },
     formatExist (val) {
-      // console.log(val)
       if (val) {
         let thisArr = this.$common.inheritObj(val.split(','))
         if (thisArr.length > 1 && thisArr[0]) {

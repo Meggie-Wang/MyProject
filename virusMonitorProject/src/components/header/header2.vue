@@ -26,6 +26,8 @@
     white-space: nowrap;
   }
   ul {
+    display: flex;
+    justify-content: space-between;
     position: absolute;
     left: 50%;
     margin-left: -29%;
@@ -40,12 +42,6 @@
     font-size: 0.8em;
     line-height: 8.2em;
     cursor: pointer;
-    &:first-child {
-      float: left;
-    }
-    &:last-child {
-      float: right;
-    }
   }
 </style>
 

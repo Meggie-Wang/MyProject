@@ -47,11 +47,15 @@
     margin: 0 auto;
     background: url('../../../static/img/icon.png') -208px -103px no-repeat;
   }
-  .tip {
+  .safeInfortip {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     color: red;
-    text-align: center;
     font-size: 12px;
-    margin: 2%;
+  }
+  .el-tabs {
+    margin-top: 3%;
   }
   .safeInfor_body {
     display: flex;
@@ -243,7 +247,7 @@
           <i></i>
         </button>
       </div>
-      <p class="tip">{{ tip }}</p>
+      <p class="safeInfortip">{{ tip }}</p>
       <el-tabs v-model="urlActive.activeName" @tab-click="handleClick">
         <el-tab-pane label="安全文章" name="first" v-if="$i18n.locale === 'zh'">
           <div
@@ -285,7 +289,7 @@
         </el-tab-pane>
         <el-tab-pane :label="$t('messages.securityInformation.securityInfo')" name="second">
           <div class="safeInfor_body" v-for="inforData in inforDatas">
-            <a :href="inforData.link" target="_black" class="safeInfor_body_right">
+            <a :href="inforData.link" target="_black" rel="noopener noreferrer nofollow" class="safeInfor_body_right">
               <h1 class="title">{{inforData.title}}</h1>
               <div class="paragraph">{{inforData.summary}}</div>
               <div class="dateInfo">
@@ -352,8 +356,8 @@ export default {
     language () {
       this.tip = ''
       this.searchMsg = ''
-      this.safeArticle('', 1, '')
-      this.safeInfor(1, '')
+      this.safeArticle('', this.$route.query.page1 || 1, '')
+      this.safeInfor(this.$route.query.page2 || 1, '')
       this.urlActive.activeName = this.$route.query.activeName
     },
     searchMsg (val) {
@@ -377,12 +381,11 @@ export default {
       }
     }
     this.urlChange(this.urlActive.activeName, this.urlActive.page1 || 1, this.urlActive.page2 || 1, this.$route.query.search)
-    // 安全文章
     this.safeArticle('', this.$route.query.page1 || 1, this.$route.query.search)
-    // 安全信息
     this.safeInfor(this.$route.query.page2 || 1, this.$route.query.search)
   },
   methods: {
+    // 安全文章
     safeArticle (id, page, search) {
       var that = this
       // 安全文章
@@ -407,6 +410,7 @@ export default {
       })
       this.tip = ''
     },
+    // 安全信息
     safeInfor (page, search) {
       var that = this
       api.safeInfor(page, search).then(inforRes => {
@@ -431,6 +435,10 @@ export default {
     doSearch() {
       var that = this
       var msg = this.searchMsg
+      if (!msg) {
+        this.tip = this.$t('messages.search.searchTip')
+        return
+      }
       that.urlChange(this.$route.query.activeName, 1, 1, msg)
       if (that.$i18n.locale === 'zh') {
         if (this.$route.query.activeName === 'first') {
@@ -468,11 +476,13 @@ export default {
     },
     // tab切换
     handleClick(tab, event) {
-      this.searchMsg = ''
-      this.tip = ''
-      this.urlChange(tab.name, this.$route.query.page1 || 1, this.$route.query.page2 || 1, '')
-      this.safeArticle('', 1, '')
-      this.safeInfor(1, '')
+      if (this.$i18n.locale === 'zh') {
+        this.searchMsg = ''
+        this.tip = ''
+        this.urlChange(tab.name, this.$route.query.page1 || 1, this.$route.query.page2 || 1, '')
+        this.safeArticle('', this.$route.query.page1 || 1, '')
+        this.safeInfor(this.$route.query.page2 || 1, '')
+      }
     },
     // 安全文章分页
     articleChange(val) {

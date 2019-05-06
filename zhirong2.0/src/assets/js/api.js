@@ -77,8 +77,7 @@ const $get = (Interface, requestData, apiArr, apiPath) => {
     params: requestData,
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    timeout: 60000
+    }
   })
 }
 

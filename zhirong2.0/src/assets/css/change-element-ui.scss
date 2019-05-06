@@ -71,9 +71,7 @@
   
 /*date-editor*/
   .el-date-editor.el-range-editor.el-date-editor--datetimerange {
-    // display: inline-block;
     border: none;
-    margin-right: 10px;
   }
   .el-range-editor.el-input__inner {
     padding: 0;
@@ -92,6 +90,9 @@
   .el-range-separator {
     margin: 0 10px !important;
     background: url('../img/datePicker.png') center center / 100% no-repeat;
+  }
+  .el-date-range-picker .el-button--text {
+    padding: 7px 15px;
   }
 
 /*progress*/

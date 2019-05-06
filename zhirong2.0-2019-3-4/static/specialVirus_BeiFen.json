@@ -1,0 +1,12 @@
+[
+  {"name":"Archimedes","influence":"局域网内PC","type":"特种病毒","ins":"悄悄将设备的web浏览器重定向到攻击服务器","discribe":"通过感染此恶意软件并由CIA控制的计算机从LAN内的目标计算机重定向流量，将目标的计算机Web浏览器重定向到利用服务器同时显示为正常的浏览会话"},
+  {"name":"OutlawCountry","influence":"Linux","type":"特种病毒","ins":"流量重定向来窃取数据","discribe":"把目标计算机上的所有出站网络流量重定向到CIA控制的计算机系统，以便窃取或者注入数据。"},
+  {"name":"Elsa","influence":"支持WIFI的设备","type":"特种病毒","ins":"对设备的定位","discribe":"扫描可见的WiFi接入点，并定期记录ESS标识符，MAC地址和信号强度。如果目标设备连接上了网络，恶意程序就会自动尝试使用谷歌或微软的公共地理位置数据库进行地理位置匹配，并将经纬度数据及时间戳一起保存下来。"},
+  {"name":"Cherry Blossom","influence":"支持WIFI的设备","type":"特种病毒","ins":"对路由器的控制","discribe":"利用漏洞获取未经授权的访问权限并加载自定义的固件，从而入侵路由器和无线接入点（AP）。操作人员可以简单地通过CherryWeb网页控制台来给被植入设备发送任务"},
+  {"name":"Highrise","influence":"安卓手机","type":"特种病毒","ins":"将手机中所有消息重定向至目标服务器","discribe":"安卓恶意程序，可以拦截目标手机 SMS 消息并将其重定向至远程的 CIA 服务器上/窃取并发送目标手机所有短信"},
+  {"name":"couchpotato","influence":"网络摄像头","type":"特种病毒","ins":"抓取监控视频流（摄像头端）","discribe":"针对网络摄像头，能够收集RTSP/H.264视频流，收集视频并且保存为AVI文件，也可以对变化较大的视频帧抓取静态照片(JPG)。"},
+  {"name":"Weeping Angel","influence":"智能电视（三星）","type":"特种病毒","ins":"把电视变成监控设备","discribe":"将智能电视的麦克风转变为监控工具，记录内置麦克风的音频并输出或存储数据。"},
+  {"name":"Hive","influence":"视频监控系统","type":"特种病毒","ins":"窃取监控视频流（控制设备端）","discribe":"针对网络视频监控等系统的定制植入程序，并能实现多种平台植入任务的后台控制工作，协助CIA从植入恶意软件的目标机器中以HTTPS协议和数据加密方式执行命令和窃取数据"},
+  {"name":"Brutal Kangaroo","influence":"针对物理隔离网络","type":"特种病毒","ins":"针对物理隔离网络，感染网络内（包括移动）设备","discribe":""},
+  {"name":"Dark Matter","influence":"MAC等IOS设备","type":"特种病毒","ins":"监听IOS设备","discribe":"入侵苹果Mac和iOS设备的技术与工具，持续监听。"}
+]

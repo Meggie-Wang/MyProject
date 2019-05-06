@@ -197,7 +197,7 @@
         <div class="end">
           <span>
             <label>
-            <input type="checkbox" v-model="CheckStrategy" @click="doCheckStrategy($event)">&emsp;{{ $t('messages.register.agree') }}<router-link to="/userService" target="_blank">{{ $t('messages.register.clause') }}</router-link>{{ $t('messages.register.and') }}<router-link to="/userPolicy" target="_blank">{{ $t('messages.register.strategy') }}</router-link>
+            <input type="checkbox" v-model="CheckStrategy" @click="doCheckStrategy($event)">&emsp;{{ $t('messages.register.agree') }}<router-link to="/userService" target="_blank" rel="noopener noreferrer">{{ $t('messages.register.clause') }}</router-link>{{ $t('messages.register.and') }}<router-link to="/userPolicy" target="_blank" rel="noopener noreferrer">{{ $t('messages.register.strategy') }}</router-link>
           </label>
           </span>
           <span class="selectTips" v-if="!CheckStrategy">{{ $t('messages.register.checkOut') }}“{{ $t('messages.register.clause') }}”！</span>

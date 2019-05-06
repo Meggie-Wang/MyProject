@@ -109,7 +109,7 @@
   }
   .flex-container {
     position: relative;
-    height: 88%;
+    height: calc(100% - 3% - 5em);
     width: 96%;
     margin: 0 auto;
   }
@@ -136,7 +136,7 @@
     <div class="dashboard-title" >
       <!--左边-->
       <div class="left-box">
-        <img src="../../static/img/dashboard/logo.png" style="height:100%;width: 80%;margin-left: 16%;padding-top: 1%">
+        <img src="../../static/img/logo.png" style="height:100%;margin-left: 16%;padding-top: 1%">
       </div>
       <!--右边-->
       <div class="right-box">

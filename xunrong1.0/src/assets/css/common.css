@@ -1,0 +1,345 @@
+/*reset*/
+html,body {
+  height: 100%;
+  overflow: hidden;
+}
+
+html {
+  cellspacing: 0;
+  -webkit-text-size-adjust: none;
+}
+
+body {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-overflow-scrolling: touch;
+}
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, blockquote, th, td, a, span, img, figure {
+  margin: 0;
+  padding: 0;
+  word-break: break-all;
+  text-shadow: none;
+}
+
+fieldset, img {
+  border: 0;
+}
+
+address, caption, cite, code, dfn, strong, th, var, optgroup {
+  font-style: normal;
+  font-weight: normal;
+}
+
+html, body {
+  list-style: none;
+  font-family: '微软雅黑', Arial, "\5FAE\8F6F\96C5\9ED1";
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: 100%;
+  font-weight: normal;
+}
+
+input, button, textarea, select, optgroup, option {
+  font-family: inherit;
+  font-size: inherit;
+  font-style: inherit;
+  font-weight: inherit;
+}
+
+/*去除IE下输入框右侧图标*/
+input::-ms-clear, input::-ms-reveal {
+  display: none;
+}
+
+input[type=text], input[type=password], select {
+  border: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+}
+
+abbr, acronym {
+  border: 0px;
+  font-variant: normal;
+}
+
+code, kbd, samp, tt {
+  font-size: 100%;
+}
+
+input, button, textarea, select {
+  *font-size: 100%;
+}
+
+body {
+  line-height: 1.7;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+li {
+  vertical-align: bottom;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  text-align: left;
+}
+
+caption, th {
+  text-align: left;
+}
+
+sup, sub {
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+ins {
+  text-decoration: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after, q:before, q:after {
+  content: "";
+  content: none;
+}
+
+img {
+  border: 0 none;
+  vertical-align: middle;
+}
+
+a, img {
+  outline: none;
+}
+
+mark, time {
+  background: none;
+  display: inline;
+  font-family: Tahoma, Geneva, sans-serif;
+}
+
+* html .clearfix {
+  height: 1%;
+}
+
+a {
+  cursor: pointer;
+  outline: none;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:focus {
+  outline: none;
+  -moz-outline: none;
+}
+
+i, em {
+  font-style: normal;
+}
+
+input[type="button"], input[type="submit"], input[type="reset"],input[type="text"] {
+  -webkit-appearance: none;
+}
+
+:focus {
+  outline: 0 none;
+}
+
+:link, :visited {
+  text-decoration: none;
+}
+
+/*text-overflow
+.textOver {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/*common*/
+._aa {
+  box-sizing: border-box;
+  border: 1px solid red;
+}
+
+._scroll {
+  position: absolute;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0
+}
+
+
+/*响应*/
+._row {
+  overflow: hidden;
+}
+
+._col-5 {
+  float: left;
+  width: 5%;
+}
+
+._col-10 {
+  float: left;
+  width: 10%;
+}
+
+._col-15 {
+  float: left;
+  width: 15%;
+}
+
+._col-20 {
+  float: left;
+  width: 20%;
+}
+
+._col-25 {
+  float: left;
+  width: 25%;
+}
+
+._col-30 {
+  float: left;
+  width: 30%;
+}
+
+._col-35 {
+  float: left;
+  width: 35%;
+}
+
+._col-40 {
+  float: left;
+  width: 40%;
+}
+
+._col-45 {
+  float: left;
+  width: 45%;
+}
+
+._col-50 {
+  float: left;
+  width: 50%;
+}
+
+._col-55 {
+  float: left;
+  width: 55%;
+}
+
+._col-60 {
+  float: left;
+  width: 60%;
+}
+
+._col-65 {
+  float: left;
+  width: 65%;
+}
+
+._col-70 {
+  float: left;
+  width: 70%;
+}
+
+._col-75 {
+  float: left;
+  width: 75%;
+}
+
+._col-80 {
+  float: left;
+  width: 80%;
+}
+
+._col-85 {
+  float: left;
+  width: 85%;
+}
+
+._col-90 {
+  float: left;
+  width: 90%;
+}
+
+._col-95 {
+  float: left;
+  width: 95%;
+}
+
+/*text-align*/
+._text-center {
+  text-align: center;
+}
+
+._text-right {
+  text-align: right;
+}
+
+
+/*float*/
+._fl {
+  float: left;
+}
+
+._fr {
+  float: right;
+}
+
+._clearfix:after {
+  clear: both;
+  content: ".";
+  display: block;
+  height: 0;
+  visibility: hidden;
+}
+
+
+/*hide*/
+._hide {
+  display: none;
+}
+
+/*scroll*/
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track-piece {
+  background-color: rgba(0, 0, 0, 0.2);
+  -webkit-border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:vertical {
+  height: 5px;
+  background-color: rgba(125, 125, 125, 0.7);
+  -webkit-border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:horizontal {
+  width: 5px;
+  background-color: rgba(125, 125, 125, 0.7);
+  -webkit-border-radius: 6px;
+}

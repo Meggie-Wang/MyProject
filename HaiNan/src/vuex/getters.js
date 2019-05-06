@@ -1,0 +1,12 @@
+export const cveTrend = state => state.cveTrend
+export const analysisTrend = state => state.analysisTrend
+export const cveStyleAttack = state => state.cveStyleAttack
+export const softGeneTrend = state => state.softGeneTrend
+export const indexCveresult = state => state.indexCveresult
+export const radarRes = state => state.radarRes
+export const wordCloud = state => state.wordCloud
+export const exploitCode = state => state.exploitCode
+export const bugStoreRes = state => state.bugStoreRes
+export const softStoreRes = state => state.softStoreRes
+export const userList = state => state.userList
+export const relateBugGene = state => state.relateBugGene

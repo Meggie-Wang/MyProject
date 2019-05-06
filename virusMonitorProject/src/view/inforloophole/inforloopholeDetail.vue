@@ -250,7 +250,7 @@
           </tr>
           <tr v-if="$i18n.locale === 'zh'">
             <td class="tdClass1">参考链接</td>
-            <td class="tdClass2"><a :href="res.referenceLink" target="_black">{{ res.referenceLink }}</a></td>
+            <td class="tdClass2"><a :href="res.referenceLink" target="_black" rel="noopener noreferrer nofollow">{{ res.referenceLink }}</a></td>
           </tr>
           <tr>
             <td class="tdClass1">{{ $t('messages.inforloopholeDetail.vulnerabilitySol') }}</td>
@@ -258,7 +258,7 @@
           </tr>
           <tr v-if="$i18n.locale === 'zh'">
             <td class="tdClass1">厂商补丁</td>
-            <td class="tdClass2"><a :href="res.patchLink" target="_black">{{ res.patchName }}</a></td>
+            <td class="tdClass2"><a :href="res.patchLink" target="_black" rel="noopener noreferrer nofollow">{{ res.patchName }}</a></td>
           </tr>
           <tr v-if="$i18n.locale === 'zh'">
             <td class="tdClass1">验证信息</td>

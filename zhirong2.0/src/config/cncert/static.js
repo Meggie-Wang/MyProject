@@ -20,7 +20,7 @@ Vue.prototype.$img = {
 
 Vue.prototype.chartColor = ['#4fc4ed', '#4d9cdb', '#4ee2df', '#4ebbe4', '#6becc6']
 
-Vue.prototype.$projectName = document.title = 'Cncert'
+Vue.prototype.$projectName = document.title = 'CNCERT'
 
 const webIcon = document.querySelector('#web-icon')
 webIcon.href = icon

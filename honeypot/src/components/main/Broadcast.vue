@@ -20,7 +20,7 @@ export default {
       swiperData: [],
       swiperOption: {
         autoplay: {
-          delay: 3000,
+          delay: 4500,
           disableOnInteraction: false
         },
         observer: true,
@@ -29,7 +29,7 @@ export default {
         slidesPerView: 5,
         spaceBetween: 10,
         loop: true,
-        speed: 3000,
+        speed: 1500,
         noSwiping: true
       }
     }

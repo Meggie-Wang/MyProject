@@ -193,67 +193,125 @@
               <!-- 增加为匹配文字 -->
             </table>
             <p v-else style="color: #999;">未检测到家族基因</p>
+
           </div>
-          <div
-            v-if="predict_result.length"
-            class="predict-result-con">
-            <h1 v-if="predict_result.length">基因分析结果</h1>
+          <div class="predict-result-con">
+            <h1 class="__row" v-if="predict_result.length">
+              <span class="__col-50">基因分析结果</span>
+              <span
+                v-if="Array.isArray(this.predict_result_ori)"
+                class="__col-50 __text-right __handCursor"
+                style="font-size: 10px; line-height: 31px;"
+                @click="predictResultShowMore = !predictResultShowMore">
+                <i :class="{
+                  'el-icon-arrow-up': predictResultShowMore,
+                  'el-icon-arrow-down': !predictResultShowMore
+                }"></i>
+                {{predictResultShowMore ? '收起' : '更多'}}</span>
+            </h1>
             <table
-            class="predict-result-table"
-            v-for="(x, y) in predict_result"
-            :key="y">
+              v-if="predict_result.length"
+              class="predict-result-table"
+              v-for="(x, y) in predict_result"
+              :key="y">
+                <tr>
+                  <td
+                    v-for="(x1, y1) in x"
+                    :key="y1"
+                    :style="{
+                      borderTopWidth: y === 0 ? '1px' : '0px'
+                    }">
+                      <span>{{y1}}</span>
+                    </td>
+                  <td
+                    v-if="y === predict_result.length - 1 && predictResultTableTdNullNum"
+                    :colspan="predictResultTableTdNullNum"
+                    style="border-color: transparent;"></td>
+                </tr>
+                <tr>
+                  <td
+                  v-for="(x1, y1) in x"
+                  :key="y1">
+                    <span
+                    class="results-num printHide"
+                    @mouseenter="showResultsNum(x1, $event)"
+                    @mouseleave="showResultsNum(x1, $event)"
+                    :style="{backgroundImage: backImg(x1)}">
+                      <i style="color: rgba(255, 255, 255, 0);">{{x1}}</i>
+                    </span>
+                    <span class="node-i printHide" style="color: rgba(255, 255, 255, 0);" si='other'>{{x1}}</span>
+                    <span class="printShowTrans">{{x1}}</span>
+                  </td>
+                </tr>
+              </table>
+            <div
+              v-if="predictResultShowMore && predict_result.length"
+              class="__text-right"
+              style="margin-top: 10px;">
+              <el-button
+                size="mini"
+                @click="predictResultShowMore = false">
+                <i class="el-icon-arrow-up"></i>
+                收起</el-button>
+            </div>
+
+            <div
+              class="__row gene-img-con"
+              v-if="geneImg1.length || geneImg2.length">
+                <div
+                class="__col-50 gene-img"
+                v-if="geneImg1.length">
+                  <img v-lazy="geneImg1">
+                  <footer>基因序列物理排列图</footer>
+                  <!-- <span @click="dialogVisible = true; showGeneImg = geneImg1">查看大图</span> -->
+                  <span @click="showGeneImg = geneImg1; checkOriImg()">查看原图</span>
+                  <span><a :href="geneImg1" download="基因序列物理排列图">下载</a></span>
+                </div>
+                <div
+                class="__col-50 gene-img"
+                v-if="geneImg2.length">
+                  <div>
+                    <img v-lazy="geneImg2">
+                    <footer>基因逻辑图</footer>
+                  </div>
+                  <!-- <span @click="dialogVisible = true; showGeneImg = geneImg2">查看大图</span> -->
+                  <span @click="showGeneImg = geneImg2; checkOriImg()">查看原图</span>
+                  <span><a :href="geneImg2" download="基因逻辑图">下载</a></span>
+                </div>
+              </div>
+          </div>
+
+          <!-- 相关md5 -->
+          <div v-if="basic_info.relate_md5">
+            <h1>证据链</h1>
+            <table>
               <tr>
-                <td
-                v-for="(x1, y1) in x"
-                :key="y1"
-                :style="{
-                  borderTopWidth: y === 0 ? '1px' : '0px'
-                }">
-                  <span>{{y1}}</span>
-                </td>
+                <td>本文件MD5</td>
+                <td>{{static_info.gene_family[0].family}}家族相关样本MD5</td>
+                <td align="center" width="170">关联样本归属证明</td>
+                <td align="center" width="120">相关证明</td>
               </tr>
               <tr>
-                <td
-                v-for="(x1, y1) in x"
-                :key="y1">
-                  <span
-                  class="results-num printHide"
-                  @mouseenter="showResultsNum(x1, $event)"
-                  @mouseleave="showResultsNum(x1, $event)"
-                  :style="{backgroundImage: backImg(x1)}">
-                    <i style="color: rgba(255, 255, 255, 0);">{{x1}}</i>
-                  </span>
-                  <span class="node-i printHide" style="color: rgba(255, 255, 255, 0);" si='other'>{{x1}}</span>
-                  <span class="printShowTrans">{{x1}}</span>
+                <td>{{basic_info.sample_md5}}</td>
+                <td>{{basic_info.relate_md5}}</td>
+                <td align="center">
+                  <img
+                    class="__handCursor"
+                    :src="$img.view"
+                    style="height: 13px;"
+                    @click="checkEvidence(basic_info.relate_md5, 1)">
+                </td>
+                <td align="center">
+                  <img
+                    class="__handCursor"
+                    :src="$img.view"
+                    style="height: 13px;"
+                    @click="checkEvidence(basic_info.relate_md5, 0)">
                 </td>
               </tr>
             </table>
-
-            <div
-            class="__row gene-img-con"
-            v-if="geneImg1.length || geneImg2.length">
-              <div
-              class="__col-50 gene-img"
-              v-if="geneImg1.length">
-                <img v-lazy="geneImg1">
-                <footer>基因序列物理排列图</footer>
-                <!-- <span @click="dialogVisible = true; showGeneImg = geneImg1">查看大图</span> -->
-                <span @click="showGeneImg = geneImg1; checkOriImg()">查看原图</span>
-                <span><a :href="geneImg1" download="基因序列物理排列图">下载</a></span>
-              </div>
-              <div
-              class="__col-50 gene-img"
-              v-if="geneImg2.length">
-                <div>
-                  <img v-lazy="geneImg2">
-                  <footer>基因逻辑图</footer>
-                </div>
-                <!-- <span @click="dialogVisible = true; showGeneImg = geneImg2">查看大图</span> -->
-                <span @click="showGeneImg = geneImg2; checkOriImg()">查看原图</span>
-                <span><a :href="geneImg2" download="基因逻辑图">下载</a></span>
-              </div>
-            </div>
           </div>
+
           <div v-if="isNormalData(static_info, static_info.apt_match)">
             <h1>APT基因检测结果</h1>
             <table>
@@ -745,7 +803,10 @@ export default {
       basic_info: {},
       behaviorLabelShow: false,
       static_info: {},
+      predict_result_ori: [],
       predict_result: [],
+      predictResultShowMore: false,
+      predictResultTableTdNullNum: 0,
       geneImg1: '',
       geneImg2: '',
       geneDownload: '',
@@ -857,15 +918,54 @@ export default {
         }
 
         // 基因分析结果进度条显示，每行显示n条
-        if (val.static_info.predict_result) {
-          this.predict_result = []
-          let pr = val.static_info.predict_result || []
-          this.predict_result = this.$common.splitObjToArr(pr, 6)
+        this.predict_result_ori = val.static_info.predict_result
+        if (Array.isArray(val.static_info.predict_result)) {
+          if (val.static_info.predict_result.length) {
+            this.predictResultMore(this.predict_result_ori)
+          }
+        } else {
+          // 老数据是个对象
+          this.predict_result = this.$common.splitObjToArr(this.predict_result_ori, 6)
+          this.predictResultTableTdNullNum = 6 - Object.keys(
+            this.predict_result[this.predict_result.length - 1]
+          ).length
         }
       }
+    },
+    predictResultShowMore (val) {
+      this.predictResultMore(this.predict_result_ori)
     }
   },
   methods: {
+    checkEvidence (rm, type) {
+      switch (Number(type)) {
+        case 0:
+          this.$common.newTab('Article', {
+            relate_md5: rm
+          })
+          break
+        case 1:
+          this.$common.newTab('GeneCompareResult', {
+            id: this.$route.query.id,
+            originMd5: this.basic_info.sample_md5,
+            tar_md5: rm,
+            sort_style: '-1'
+          })
+          break
+      }
+    },
+    predictResultMore (pr) {
+      let res = null
+      if (this.predictResultShowMore) {
+        res = pr.slice(0, pr.length)
+      } else {
+        res = pr.slice(0, 12)
+      }
+      this.predict_result = this.$common.splitArrToArr(res, 6)
+      this.predictResultTableTdNullNum = 6 - Object.keys(
+        this.predict_result[this.predict_result.length - 1]
+      ).length
+    },
     checkOriImg () {
       var newwin = window.open()
       newwin.document.write('<img style="width: 100%" src=' + this.showGeneImg + ' />')
@@ -973,7 +1073,7 @@ export default {
   mounted () {
     document.title = this.$projectName + '-' + this.$route.query.md5
     // 加载gene图谱
-    if (this.$tokenName !== 'gtd') {
+    if (this.$tokenName !== 'gtd' && this.$tokenName !== 'zhirong') {
       this.$store.dispatch('getSampleReport', this.$route.query.id)
     }
   },

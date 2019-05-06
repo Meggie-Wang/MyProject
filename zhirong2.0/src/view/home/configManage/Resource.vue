@@ -8,7 +8,13 @@
           <div class="equipment1">
             <ul>
               <li v-for="(item, index) in sandboxList" :key="index">
-                <span><img :src="$img.zhirongLogo" alt=""></span>
+                <span>
+                  <img
+                    v-if="$tokenName === 'cncert'"
+                    :src="$img.logo"
+                    style="width: 77%;">
+                  <img :src="$img.zhirongLogo" v-else>
+                </span>
                 <span><img :src="$img.equipment" alt="" v-if="item.running_status==='1'"><img :src="$img.unEquipment" alt="" v-else></span>
               </li>
             </ul>
@@ -44,22 +50,22 @@
             <li>普通样本占用比</li>
           </ul>
           <ul>
-            <li>{{StorageState.total_storage}}</li>
-            <li>{{StorageState.use_storage}}</li>
-            <li>{{StorageState.storage_rate}}</li>
-            <li>{{StorageState.sample_storage_rate}}</li>
-            <li>{{StorageState.virus_sample_storage_rate}}</li>
-            <li>{{StorageState.normal_sample_storage_rate}}</li>
+            <li>{{StorageState.total_storage || 0}}</li>
+            <li>{{StorageState.use_storage || 0}}</li>
+            <li>{{StorageState.storage_rate || 0}}</li>
+            <li>{{StorageState.sample_storage_rate || 0}}</li>
+            <li>{{StorageState.virus_sample_storage_rate || 0}}</li>
+            <li>{{StorageState.normal_sample_storage_rate || 0}}</li>
           </ul>
         </div>
       </div>
       <div class="node-state">
         <h3>存储节点运行状态</h3>
         <ul class="node-state-list">
-          <li>节点总数:{{NodeState.total_nodes}}</li>
-          <li>正常运行数:{{NodeState.active_nodes}}</li>
-          <li>关闭数:{{NodeState.offline_nodes}}</li>
-          <li>异常节点数:{{NodeState.error_nodes}}</li>
+          <li>节点总数:{{NodeState.total_nodes || 0}}</li>
+          <li>正常运行数:{{NodeState.active_nodes || 0}}</li>
+          <li>关闭数:{{NodeState.offline_nodes || 0}}</li>
+          <li>异常节点数:{{NodeState.error_nodes || 0}}</li>
         </ul>
         <div class="storage-node-list">
           <ul class="storage-node">
@@ -329,7 +335,9 @@ export default {
     // 获取沙箱状态 资源状态 存储节点运行状态
     init () {
       this.$api.get('system_storage_info').then(res => {
-        this.StorageState = res.ret[0]
+        if (res.status === 200) {
+          this.StorageState = res.ret[0]
+        }
       })
       this.$api.get('system_resource_status').then(res => {
         this.NodeList = res.storage_info.data.storages_info

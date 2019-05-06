@@ -4,6 +4,7 @@ import Vue from 'vue'
 let apiPath = ''
 if (Vue.config.productionTip) {
   apiPath = 'http://taishi.roarpanda.com:28002/'
+  // apiPath = 'http://taishi.roarpanda.com:9800/'
 } else {
   apiPath = window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '') + '/'
 }
@@ -25,6 +26,11 @@ const apiArr = {
   'search': 'api/search_info/', // 搜索
   'detection_queue': 'api/detection_queue/', // 检测队列
   'detection_history': 'api/detection_history/', // 检测历史
+  'relate_article': 'api/relate_article/', // 证据链
+  'differAnalysis': 'api/differAnalysis/', // 对比分析
+  'function_pic': 'api/function_pic/', // 对比图片生成
+  'function_pic_data': 'api/function_pic_data/', // 基因对比图数据
+  'image_show': 'api/image_show/', // 对比图片前缀
   'export_detetion_result_list': 'api/export_detetion_result_list/', // 导出检测结果列表
   'sampleReport': 'api/detection_result/', // 样本分析报告
   'important_sign': 'api/important_sign/', // 重要性
@@ -81,6 +87,7 @@ const apiArr = {
 
 // 这段代码重复，原因：apiArr, apiPath需要传入'@/api/api'中
 const api = {
+  contentImg: apiPath,
   apiPath: apiPath,
   post: (Interface, requestData) => {
     return ajax.post(Interface, requestData, apiArr, apiPath)

@@ -15,9 +15,8 @@
 	}
 	._nav > a > i {
 		display: block;
-    width: 172px;
-    height: 32px;
-    background: url('../../../static/img/logo.png') center center / cover no-repeat;
+    height: 50px;
+    background: url('../../../static/img/logo.png') center center / auto 100% no-repeat;
 	}
 	._nav > ul {
     display: flex;

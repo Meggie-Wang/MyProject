@@ -8,17 +8,6 @@
     margin: 0;
     padding: 0;
     font-family: 'Adobe黑体';
-
-  .fl 
-    float: left !important;
-  
-  .fr 
-    float: right;
-
-  .clearfix:after 
-    content: "";
-    display: block;
-    clear: both;
 </style>
 <template>
   <div id="app"> 

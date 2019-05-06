@@ -55,7 +55,7 @@
     margin: 0 auto;
     background: url('../../../static/img/icon.png') -208px -103px no-repeat;
   }
-  .tip {
+  .searchTip {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -84,7 +84,7 @@
         <i></i>
       </button>
     </div>
-    <p class="tip">{{ tip }}</p>
+    <p class="searchTip">{{ tip }}</p>
     <div class="hsearch">
       <router-link to="/advSearch">{{ $t('messages.search.advSearch') }}</router-link>
     </div>

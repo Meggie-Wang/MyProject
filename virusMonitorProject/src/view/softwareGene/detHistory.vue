@@ -17,26 +17,17 @@
     background: #169175;
   }
   .up {
+    display: flex;
+    justify-content: space-between;
     width: 80%;
     height: 300px;
     margin: 0 auto;
   }
-  .up_left {
+  .up > div {
     width: 45%;
-    height: 260px;
     margin: 10px 2%;
   }
-  .up_left_top {
-    height: 265px;
-  }
-  .up_lfet_bottom {
-  }
-  .up_right {
-    width: 45%;
-    height: 260px;
-    margin: 10px 5% 10px 0;
-  }
-  .up_right_top {
+  .up_left_top, .up_right_top {
     height: 265px;
   }
   .down {
@@ -129,7 +120,7 @@
     <p class="title">{{ $t('messages.detectionHistory.historicalDet') }}</p>
     <div class="line"></div>
     <div class="up">
-      <div class="up_left fl">
+      <div class="up_left">
         <div class="up_left_top" id="up_left_top">
           <!-- 图表 -->
         </div>
@@ -137,7 +128,7 @@
           <p style="text-align:center">{{ $t('messages.detectionHistory.LastYearDetTask') }}</p>
         </div>
       </div>
-      <div class="up_right fr">
+      <div class="up_right">
         <div class="up_right_top" id="up_right_top">
           <!-- 图表 -->
         </div>

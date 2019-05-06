@@ -25,6 +25,9 @@ const apiArr = {
   'search': 'api/search_info/', // 搜索
   'detection_queue': 'api/detection_queue/', // 检测队列
   'detection_history': 'api/detection_history/', // 检测历史
+  'undetectSample': 'api/undetect_sample/', // 未检测样本列表
+  'uploadUndetectSample': 'api/download_undetect_sample/', // 下载未检测样本列表
+  'detectionUndetectSample': 'api/undetect_to_detect/', // 检测未检测样本
   're_dynamic_detect': 'api/re_dynamic_detect/', // 重新动态检测
   'sample_sandbox_detection_result': 'api/sample_sandbox_detection_result/', // 在检测报告中点击对应沙箱 返回对应的数据
   'export_detetion_result_list': 'api/export_detetion_result_list/', // 导出检测结果列表

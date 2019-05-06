@@ -66,7 +66,7 @@
       <div class="end">
         <span>
           <label>
-            <input type="checkbox" v-model="receive" @click="agree">&emsp;{{ $t('messages.register.agree') }}<router-link to="/UserService" target="_blank">{{ $t('messages.register.clause') }}</router-link>{{ $t('messages.register.and') }}<router-link to="/UserPolicy" target="_blank">{{ $t('messages.register.strategy') }}</router-link>
+            <input type="checkbox" v-model="receive" @click="agree">&emsp;{{ $t('messages.register.agree') }}<router-link to="/UserService" target="_blank" rel="noopener noreferrer">{{ $t('messages.register.clause') }}</router-link>{{ $t('messages.register.and') }}<router-link to="/UserPolicy" target="_blank" rel="noopener noreferrer">{{ $t('messages.register.strategy') }}</router-link>
           </label>
         </span>
         <span class="selectTips" v-if="!receive">{{ $t('messages.register.checkOut') }}“{{ $t('messages.register.clause') }}”！</span>

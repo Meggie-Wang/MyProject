@@ -48,13 +48,16 @@
     margin: 0 auto;
     background: url('../../../static/img/icon.png') -208px -103px no-repeat;
   }
-  .tip {
+  .safeWordTip {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 5px;
     color: red;
-    text-align: center;
     font-size: 12px;
-    margin: 2%;
   }
   .safeWords_body {
+    margin-top: 3%;
     border: 1px solid #169175;
   }
   .safeWords_body_table {
@@ -164,7 +167,7 @@
         <i></i>
       </button>
     </div>
-    <p class="tip">{{ tip }}</p>
+    <p class="safeWordTip">{{ tip }}</p>
     <div class="safeWords_body">
       <div class="safeWords_body_select">
         <el-tabs v-model="activeName" @tab-click="handleClick">

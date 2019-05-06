@@ -279,10 +279,10 @@ export default {
             this.allChecked = false
             this.tableData = res.results
           } else {
+            // tags exit 可能和上一次一样，导致无法触发watch
+            res.results.forEach((i, j) => { i.sample_label += ',' + Math.random() })
             this.tableData = this.tableData.concat(res.results)
           }
-          // tags exit 可能和上一次一样，导致无法触发watch
-          this.tableData.forEach((i, j) => { i.sample_label += ',' + Math.random() })
 
           this.is_unFinished = false
         }

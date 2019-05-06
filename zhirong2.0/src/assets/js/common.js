@@ -111,7 +111,13 @@ const inheritObj = (obj) => {
 // 后端传来的数据是一个非标准格式json的字符串，需要全部替换单引号为双引号的func
 const formatJson = (str) => {
   if (str) {
-    return JSON.parse(str.replace(/'/g, '"'))
+    // 规则：{"'ahs" d': 'asdk', "as'da": 'asdsad'}
+    str = str.replace(/'/g, '"')
+    str = str.replace(/(")"(\w)/, "$1'$2")// 还原key开头的单引号""a=>"'a
+    str = str.replace(/(\w+)\s*" /g, "$1' ") // 还原key中间的有一个空格单引号s" =>s'_
+    str = str.replace(/(\w+)\s*"\s*(\w+)/g, "$1'$2") // 还原key中间的单引号s"s=>s's
+    // console.log(str)
+    return JSON.parse(str)
   } else {
     return str
   }
@@ -278,6 +284,30 @@ const splitObjToArr = (d, n) => {
   }
   return targetArr
 }
+// 河南国安将基因检测结果显示，改成更多按钮显示
+const splitArrToArr = (d, n) => {
+  let targetArr = [] // 最后导出
+  let objItem = {} // 单行存储
+  let objFlag = 1 // 递归行计数
+  d.forEach((i, j) => {
+    objItem[i.family] = i.rate
+    if (objFlag === n) {
+      // 当行最后一位
+      objFlag = 1
+      targetArr.push(objItem)
+      objItem = {}
+    } else if (targetArr.length === parseInt(d.length / n) && objFlag === d.length % n) {
+      // 不足一行
+      // 导出 === 总行数 - 1
+      // && 递增flag === 最后一行数
+      targetArr.push(objItem)
+    } else if (objFlag < n) {
+      objFlag++
+    }
+  })
+
+  return targetArr
+}
 
 // 分析报告详情，根据报告的type，返回时间字符串
 // 日报： h:m:s
@@ -295,6 +325,38 @@ const typeTime = (time, type) => {
   return timeStr
 }
 
+// 排序，针对echarts数据的排序[{name: String, value: Number}]
+let compareAndSort = (arr) => {
+  let compare = function (obj1, obj2) {
+    let val1 = obj1.value
+    let val2 = obj2.value
+    if (val1 > val2) {
+      return -1
+    } else if (val1 < val2) {
+      return 1
+    } else {
+      return 0
+    }
+  }
+  let r = inheritObj(arr)
+  r.sort(compare)
+  return r
+}
+
+let newTab = (path, params) => {
+  let urlParams = ''
+  if (params) {
+    Object.keys(params).forEach(i => {
+      urlParams += `${i}=${params[i]}`
+      urlParams += '&'
+    })
+  }
+  window.open(window.location.protocol + '//' +
+    window.location.hostname +
+    (window.location.port ? ':' + window.location.port : '') +
+    '/#/' + path + '?' + urlParams)
+}
+
 export default {
   getCookie: getCookie,
   setCookie: setCookie,
@@ -310,5 +372,8 @@ export default {
   randomWord: randomWord,
   downloadFile: downloadFile,
   splitObjToArr: splitObjToArr,
-  typeTime: typeTime
+  splitArrToArr: splitArrToArr,
+  typeTime: typeTime,
+  compareAndSort: compareAndSort,
+  newTab: newTab
 }

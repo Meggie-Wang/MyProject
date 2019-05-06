@@ -9,7 +9,9 @@
       'justify-content': $route.path === '/Main' ? 'center' : 'flex-start',
       'align-items': $route.path === '/Main' ? 'flex-end' : 'center'
     }">
-      <img :src="$img.logo">
+      <img
+        :src="$img.logo"
+        :style="{height: $tokenName === 'zhirong' ? '57%' : '45%'}">
     </div>
 
     <div

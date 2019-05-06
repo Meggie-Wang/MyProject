@@ -1,8 +1,14 @@
+import Vue from 'vue'
 import axios from 'axios'
 import Router from '../router'
 
 // 命名接口
-const apiPath = '//taishi.roarpanda.com:9300/'
+let apiPath = ''
+if (Vue.config.productionTip) {
+  apiPath = '//taishi.roarpanda.com:9300/'
+} else {
+  apiPath = window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '') + '/'
+}
 
 const apiArr = {
   'login': 'user/newlogin/', // 登陆接口 post

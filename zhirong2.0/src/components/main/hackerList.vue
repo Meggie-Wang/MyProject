@@ -2,7 +2,7 @@
   <div
     class="hackerList"
     :style="{backgroundImage:'url(' + smallBg + ')'}">
-    <div class="main">
+    <div class="main" v-if="total">
       <div class="title">最新检测结果</div>
       <el-carousel
         indicator-position="none"
@@ -19,7 +19,10 @@
           </ul>
         </el-carousel-item>
       </el-carousel>
+
     </div>
+    <!-- 无数据 -->
+    <NoData v-else />
   </div>
 </template>
 <script>
@@ -30,7 +33,7 @@ export default {
     return {
       smallBg: smallBg,
       hackerList: [],
-      total: 1,
+      total: 0,
       example: [{sample_md5: 'md5', detect_finished_time: '完成时间', is_malicious: 'no'}, {sample_md5: 'md5', detect_finished_time: '完成时间', is_malicious: 'yes'}, {sample_md5: 'md5', detect_finished_time: '完成时间', is_malicious: 'unknown'}],
       example2: []
     }
@@ -41,11 +44,13 @@ export default {
   watch: {
     detectionResult (val) {
       this.hackerList = val
-      this.total = Math.ceil(val[0].count / 3)
-      if (val[0].results.length === 0) {
-        this.example2 = this.example
-      } else {
-        this.example2 = val[0].results
+      if (val[0].results) {
+        this.total = Math.ceil(val[0].count / 3)
+        if (val[0].results.length === 0) {
+          this.example2 = this.example
+        } else {
+          this.example2 = val[0].results
+        }
       }
     }
   },

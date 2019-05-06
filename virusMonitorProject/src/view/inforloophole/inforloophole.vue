@@ -47,8 +47,15 @@
     margin: 0 auto;
     background: url('../../../static/img/icon.png') -208px -103px no-repeat;
   }
+  .inforloopholeTip {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    color: red;
+    font-size: 12px;
+  }
   .inforloophole_body {
-    margin: 10px 0;
+    margin: 30px 0;
     border: 1px solid #169175;
   }
   .inforloophole_body ul {
@@ -227,11 +234,13 @@
           v-model="searchMsg"
           :placeholder="$t('messages.securityInformation.securityInfoSearch')"
           class="inp"
-          @keyup.enter="doSearch(path)">
+          @keyup.enter="doSearch(path)"
+          @focus="tip = ''">
         <button @click="doSearch(path)">
           <i></i>
         </button>
       </div>
+      <div class="inforloopholeTip">{{ tip }}</div>
       <div class="inforloophole_body">
         <!-- 菜单栏begin -->
         <ul>
@@ -314,7 +323,7 @@
       <!-- 分页 -->
       <div class="page">
         <el-pagination
-          v-if="loopholeDatas.length && loopholeDatas.length !== 1"
+          v-if="loopholeDatas.length"
           background
           layout="prev, pager, next"
           :total="total"
@@ -334,6 +343,7 @@ export default {
   data() {
     return {
       searchMsg: '',
+      tip: '',
       loopholeDatas: [],
       selected: Number(this.$route.query.selected || 1),
       // 发现时间排序
@@ -520,10 +530,16 @@ export default {
         }
       }
     }
-    this.searchMsg = this.$route.query.search
     if (location.href.indexOf('?') === -1) {
       this.urlChange(1, 'time', 1, this.$route.query.search)
     }
+    // 判断是否在有搜索内容的情况下排序
+    if (this.$route.query.search.split('_').length === 1) {
+      this.searchMsg = this.$route.query.search
+    } else {
+      this.searchMsg = this.$route.query.search.split('_')[0]
+    }
+    // 初始数据
     if (this.$i18n.locale === 'zh') {
       this.getData(this.$route.query.choice, Number(this.$route.query.page), '', this.$route.query.search)
     } else if (this.$i18n.locale === 'en') {
@@ -557,8 +573,10 @@ export default {
   },
   watch: {
     language (val) {
+      this.searchMsg = ''
+      this.tip = ''
       if (val === 'zh') {
-        this.getData(this.$route.query.choice, Number(this.$route.query.page), '', this.$route.query.search)
+        this.getData(this.$route.query.choice, Number(this.$route.query.page) || 1, '', this.$route.query.search)
         this.path = 'getInforLoophole'
       } else if (val === 'en') {
         this.getEnData('time')
@@ -578,7 +596,7 @@ export default {
   },
   methods: {
     // 获取中文数据
-    getData (choice, page, id, search) {
+    getData (choice, page, id, search = '') {
       this.currentPage = Number(page)
       api.getInforLoophole(choice, page, id, search).then(res => {
         var that = this
@@ -624,18 +642,24 @@ export default {
     },
     // 搜索
     doSearch () {
-      var msg = this.searchMsg
       var that = this
-      that.urlChange(this.$route.query.selected, this.$route.query.choice, 1, msg)
-      if (this.$i18n.locale === 'zh') {
-        this.getData(this.$route.query.choice, 1, '', msg)
-      } else if (this.$i18n.locale === 'en') {
-        this.getEnData('time', msg)
+      if (this.searchMsg !== '') {
+        that.currentPage = 1
+        that.urlChange(this.$route.query.selected, this.$route.query.choice, 1, this.searchMsg)
+        if (this.$i18n.locale === 'zh') {
+          this.getData(this.$route.query.choice, 1, '', this.searchMsg)
+        } else if (this.$i18n.locale === 'en') {
+          this.getEnData('time', this.searchMsg)
+        }
+        this.entryTimeActive = true
+      } else {
+        that.urlChange(this.$route.query.selected, this.$route.query.choice, this.$route.query.page || 1, '')
+        this.tip = this.$t('messages.search.searchTip')
       }
-      this.entryTimeActive = true
     },
     // 漏洞发现时间排序
     discoveryTimeSort (e) {
+      this.currentPage = 1
       // 中文状态下
       if (this.$i18n.locale === 'zh') {
         // 只在选择第一个选项卡时可以排序
@@ -652,24 +676,24 @@ export default {
         if (this.$route.query.search === '') {
           // 没有_r时 加上_r
           if (this.$route.query.choice.split('_')[1] === undefined) {
-            this.urlChange(1, 'time_r', this.$route.query.page)
+            this.urlChange(1, 'time_r', 1)
             this.getEnData('time_r')
           } else if (this.$route.query.choice.split('_')[1] !== undefined) {
             // 有_r时 去掉_r 正序
             let choice = this.$route.query.choice.split('_')[0]
-            this.urlChange(1, 'time', this.$route.query.page)
+            this.urlChange(1, 'time', 1)
             this.getEnData('time')
           }
         } else {
           // 当search不为空
           if (this.$route.query.search.split('_')[1] === undefined) {
             // 没有_r时 加上_r 倒序
-            this.urlChange(1, 'time', this.$route.query.page, this.$route.query.search + '_r')
+            this.urlChange(1, 'time', 1, this.$route.query.search + '_r')
             this.getEnData('time', this.$route.query.search)
           } else if (this.$route.query.search.split('_')[1] !== undefined) {
             // 有_r时 去掉_r 正序
             let search = this.$route.query.search.split('_')[0]
-            this.urlChange(1, 'time', this.$route.query.page, search)
+            this.urlChange(1, 'time', 1, search)
             this.getEnData('time', search)
           }
         }

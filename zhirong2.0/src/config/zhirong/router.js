@@ -18,6 +18,11 @@ import DetectionHistory from '@/view/home/sample/DetectionHistory'
 import SampleReport from '@/view/home/sample/SampleReport'
 import ApiWord from '@/view/home/sample/ApiWord'
 import ExportExcel from '@/view/home/sample/ExportExcel'
+// 证据链查看
+import Article from '@/view/home/sample/Article'
+import GeneCompareResult from '@/view/home/sample/GeneCompareResult'
+import GeneCompareImg from '@/view/home/sample/GeneCompareImg'
+import GeneCompare from '@/view/home/sample/GeneCompare'
 
 import GeneExtract from '@/view/home/gene/GeneExtract'
 import GeneQueue from '@/view/home/gene/GeneQueue'
@@ -113,6 +118,46 @@ const router = new Router({
           component: SampleReport,
           meta: {
             title: '检测结果详情',
+            keepAlive: false,
+            isBackground: false
+          }
+        },
+        {
+          path: '/Article',
+          name: 'Article',
+          component: Article,
+          meta: {
+            title: '相关证明',
+            keepAlive: false,
+            isBackground: false
+          }
+        },
+        {
+          path: '/GeneCompareResult',
+          name: 'GeneCompareResult',
+          component: GeneCompareResult,
+          meta: {
+            title: '关联样本归属证明',
+            keepAlive: false,
+            isBackground: false
+          }
+        },
+        {
+          path: '/GeneCompareImg',
+          name: 'GeneCompareImg',
+          component: GeneCompareImg,
+          meta: {
+            title: '关联样本基因对比详情',
+            keepAlive: false,
+            isBackground: false
+          }
+        },
+        {
+          path: '/GeneCompare',
+          name: 'GeneCompare',
+          component: GeneCompare,
+          meta: {
+            title: '关联样本基因对比详情',
             keepAlive: false,
             isBackground: false
           }

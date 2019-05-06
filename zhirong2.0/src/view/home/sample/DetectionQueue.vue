@@ -227,8 +227,12 @@ export default {
     margin: 0 auto;
   }
   .operate-con {
+    display: flex;
+    justify-content: flex-end;
     padding: 20px 0;
-    text-align: end;
+  }
+  .operate-con > div {
+    margin-right: 10px;
   }
   .el-input__inner, .el-input {
     width: auto;

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Cncert</title>
+  <meta name="format-detection" content="telephone=no">
+  <meta name="viewport" content="user-scalable=no, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" href="minimap.css">
+  <link rel="stylesheet" href="js/swiper/swiper.min.css">
+</head>
+<body onload="start()" id="dataviz" class="">
+  <div id="wrapper">
+
+    <!-- loging place -->
+    <div id="loading">
+      <h2>加载中. 请稍等...</h2>
+    </div>
+
+    <div>
+      <table id="marker_template" class="marker" style="left:'0px';top:'0px'">
+        <tr>
+          <td>
+            <span id="testFlag" style="display: inline-block;border-radius: 100%;background-color: red"></span>
+            <span id="testText" class="test"></span>
+            <div class="close"></div>
+          </td>
+        </tr>
+        <tr><td><span id="detailText" class="detail"></span></td></tr>
+        <tr><td><span id="descriptionText" class="description"></span></td></tr>
+      </table>
+    </div>
+
+    <!-- draw -->
+    <div id="visualization">
+      <!-- 2D overlay elements go in here -->
+
+      <div id="glContainer">
+        <!-- 3D webgl canvas here -->
+      </div>
+    </div>
+
+    <!-- dependencies -->
+    <!-- 判断浏览器支持webgl -->
+    <script src="js/Detector.js"></script>
+    <!-- three -->
+    <script src="js/three-r87.min.js"></script>
+    <script src="js/THREEx.KeyboardState.js"></script>
+    <script src="js/THREEx.WindowResize.js"></script>
+    <script src="js/ShaderExtras.js"></script>
+    <!-- jq -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/jquery-ui-1.12.1.custom.min.js"></script>
+    <!-- 浏览器可以优化并行的动画动作，更合理的重新排列动作序列，并把能够合并的动作放在一个渲染周期内完成，从而呈现出更流畅的动画效果。比如，通过requestAnimationFrame()，JS动画能够和CSS动画/变换或SVG SMIL动画同步发生。另外，如果在一个浏览器标签页里运行一个动画，当这个标签页不可见时，浏览器会暂停它，这会减少CPU，内存的压力，节省电池电量。 -->
+    <script src="js/RequestAnimationFrame.js"></script>
+
+    <script src="js/util.js"></script>
+    <!-- 鼠标事件 -->
+    <script src="js/mousekeyboard.js"></script>
+    <!-- xhr 事件 -->
+    <script src="js/dataloading.js"></script>
+    <!-- Load the world geo data json, per facility -->
+    <script src="js/geopins.js"></script>
+    <script src="js/visualize.js"></script>
+    <script src="js/visualize_lines.js"></script>
+    <script src="js/markers.js"></script>
+    <!-- d3 -->
+    <script src="js/d3-4.11.0.min.js"></script>
+    <script src="js/ui.controls.js"></script>
+    <!-- 触屏设备手势库 -->
+    <script src="js/hammer-2.0.8.min.js"></script>
+    <!-- mini map 滚动信息利用swiper -->
+    <script src="js/swiper/swiper.min.js"></script>
+    <!-- bootstrap tooltip -->
+
+    <script type="x-shader/x-vertex" id="vertexshader">
+      uniform float amplitude;
+      attribute float size;
+      attribute vec3 customColor;
+
+      varying vec3 vColor;
+
+      void main() {
+
+        vColor = customColor;
+
+        vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+
+        gl_PointSize = size;
+
+        gl_Position = projectionMatrix * mvPosition;
+
+      }
+    </script>
+
+    <script type="x-shader/x-fragment" id="fragmentshader">
+      uniform vec3 color;
+      uniform sampler2D texture;
+
+      varying vec3 vColor;
+
+      void main() {
+
+        gl_FragColor = vec4( color * vColor, 1.0 );
+        gl_FragColor = gl_FragColor * texture2D( texture, gl_PointCoord );
+
+      }
+    </script>
+
+    <!-- Custom Shader Code for atmospheric glow -->
+    <script type="x-shader/x-vertex" id="vertexShaderAtmosphere">
+      varying vec3 vNormal;
+      varying vec3 vPosition;
+
+      void main() {
+        vNormal = normalize( normalMatrix * normal );
+        vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+        vPosition = normalize( vec3( mvPosition.x, mvPosition.y, mvPosition.z ) );
+        gl_Position = projectionMatrix * mvPosition;
+      }
+    </script>
+
+    <!-- fragment shader a.k.a. pixel shader -->
+    <script type="x-shader/x-vertex" id="fragmentShaderAtmosphere">
+      varying vec3 vNormal;
+      varying vec3 vPosition;
+
+      void main() {
+        float intensity = dot( vNormal, vPosition ) * 2.5 - 1.92;
+        gl_FragColor = vec4( 1.0, 1.0, 1.0, 1.0 ) * intensity;
+      }
+    </script>
+
+    <script src="js/main.js" type="text/javascript"></script>
+
+    <!-- legend click point -->
+    <div class="overlayTests noPointer" id="hudButtons">
+      <input type="text" name="test" class="testTextInput pointer noMapDrag" hidden>
+      <input type="button" value="+" class="zoomBtn zoomInBtn armsBtn pointer noMapDrag"><br/>
+      <input type="button" value="-" class="zoomBtn zoomOutBtn armsBtn pointer noMapDrag">
+    </div>
+    <div id="outcomeBtns" class="overlayTests">
+      <div class="success">
+        <div class="label">Success</div><br class="clear">
+      </div>
+      <div class="failure">
+        <div class="label">Failure</div><br class="clear">
+      </div>
+      <div class="unknown">
+        <div class="label">Unknown</div><br class="clear">
+      </div>
+    </div>
+
+    <!-- legend -->
+    <div id="missileTypeBtns" class="overlayTests">
+      <p class="missileTypeBtns-title">威胁信息排行</p>
+      <div class="missileTypeBtnGroup">
+        <div class="USA_Western" id="legend-0">
+          <div class="box">
+            <svg class="check" height="16" width="16" fill="#3399f3"><use xlink:href="#checkbutton" /></svg>
+          </div>
+          <div class="label">USA_Western</div>
+        </div>
+        <div class="IND_Mumbai" id="legend-1">
+          <div class="box">
+            <svg class="check" height="16" width="16" fill="#279221"><use xlink:href="#checkbutton" /></svg>
+          </div>
+          <div class="label">IND_Mumbai</div>
+        </div>
+        <div class="ARE_Dubai" id="legend-2">
+          <div class="box">
+            <svg class="check" height="16" width="16" fill="#FD690F"><use xlink:href="#checkbutton" /></svg>
+          </div>
+          <div class="label">ARE_Dubai</div>
+        </div>
+        <div class="GER_Frankfurt" id="legend-3">
+          <div class="box">
+            <svg class="check" height="16" width="16" fill="#AEB21A"><use xlink:href="#checkbutton" /></svg>
+          </div>
+          <div class="label">GER_Frankfurt</div>
+        </div>
+        <div class="CHN_Shanghai" id="legend-4">
+          <div class="box">
+            <svg class="check" height="16" width="16" fill="#814EAF"><use xlink:href="#checkbutton" /></svg>
+          </div>
+          <div class="label">CHN_Shanghai</div>
+        </div>
+        <div class="AUS_Sydney" id="legend-5">
+          <div class="box">
+            <svg class="check" height="16" width="16" fill="#89DC78">
+              <defs>
+                <g id="checkbutton">
+                  <circle r="8" cy="8" cx="8" style="stroke:none" />
+                  <path d="M 3.6801386,8.536309 L 6.9552837,11.971756 L 12.41386,3.9557141" style="fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round" />
+                </g>
+              </defs>
+              <use xlink:href="#checkbutton" />
+            </svg>
+          </div>
+          <div class="label">AUS_Sydney</div>
+        </div>
+      </div>
+      <div id="missileTypeBtnHandle" class="pointer noMapDrag"></div>
+    </div>
+
+    <!-- mini-map overlay -->
+    <div id="mini-map" class="mini-map">
+      <section class="map-detail">
+        <div class="swiper-header">
+          <ul>
+            <li>样本MD5</li>
+            <li>IP</li>
+            <li>威胁信息归属</li>
+            <li>攻击类型</li>
+          </ul>
+        </div>
+        <div class="swiper-container swiper-container-vertical">
+          <div class="swiper-wrapper"></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- <div class="globe-tags">📌 隐藏图钉标签</div> -->
+
+    <!-- attackType -->
+    <div id="attack-type" class="attack-type MaliciousInvasion_view">
+      <div class="MaliciousInvasion_title">
+        <span class="attack-type-title" old="atnTitleData">当日恶意样本总量</span>
+        <!-- 当日威胁分类统计 -->
+      </div>
+      <ul>
+        <li class="attack-type-apt">
+          <div>
+            <span>
+              <i icon></i>
+              <span class="attack-type-name"></span>
+            </span>
+            <p class="attack-type-count">0</p>
+          </div>
+        </li>
+        <li class="attack-type-0">
+          <div>
+            <span>
+              <i icon></i>
+              <span class="attack-type-name"></span>
+            </span>
+            <p class="attack-type-count">0</p>
+          </div>
+        </li>
+        <li class="attack-type-1">
+          <div>
+            <span>
+              <i></i>
+              <span class="attack-type-name"></span>
+            </span>
+            <p class="attack-type-count">0</p>
+          </div>
+        </li>
+        <li class="attack-type-2">
+          <div>
+            <span>
+              <i></i>
+              <span class="attack-type-name"></span>
+            </span>
+            <p class="attack-type-count">0</p>
+          </div>
+        </li>
+        <li class="attack-type-3">
+          <div>
+            <span>
+              <i></i>
+              <span class="attack-type-name"></span>
+            </span>
+            <p class="attack-type-count">0</p>
+          </div>
+        </li>
+        <li class="attack-type-4">
+          <div>
+            <span>
+              <i></i>
+              <span class="attack-type-name"></span>
+            </span>
+            <p class="attack-type-count">0</p>
+          </div>
+        </li>
+        <li class="attack-type-5">
+          <div>
+            <span>
+              <i></i>
+              <span class="attack-type-name"></span>
+            </span>
+            <p class="attack-type-count">0</p>
+          </div>
+        </li>
+        <li class="attack-type-6">
+          <div>
+            <span>
+              <i></i>
+              <span class="attack-type-name"></span>
+            </span>
+            <p class="attack-type-count">0</p>
+          </div>
+        </li>
+        <li class="attack-type-7">
+          <div>
+            <span>
+              <i></i>
+              <span class="attack-type-name"></span>
+            </span>
+            <p class="attack-type-count">0</p>
+          </div>
+        </li>
+        <li class="attack-type-sum" id="attack-type-sum">
+          <div>
+            <!-- <span>
+              <span class="attack-type-name">当日恶意样本总量</span>
+            </span> -->
+            <p>0</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

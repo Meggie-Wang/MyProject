@@ -14,6 +14,12 @@ import Pie from '@/components/main/pie.vue'
 
 import SampleReportOption from '@/components/SampleReportOption.vue'
 
+import Table from '@/components/Table'
+import VEchart from '@/components/vueEcharts/v-echart'
+import GeneGroupChart from '@/components/GeneGroupChart'
+
+import D3Graphviz from '@/components/d3Graphviz/D3Graphviz'
+
 Vue.component('Sidebar', Sidebar)
 Vue.component('myHeader', myHeader)
 
@@ -26,3 +32,7 @@ Vue.component('myLine', myLine)
 Vue.component('Pie', Pie)
 
 Vue.component('SampleReportOption', SampleReportOption)
+Vue.component('Table', Table)
+Vue.component('VEchart', VEchart)
+Vue.component('GeneGroupChart', GeneGroupChart)
+Vue.component('D3Graphviz', D3Graphviz)

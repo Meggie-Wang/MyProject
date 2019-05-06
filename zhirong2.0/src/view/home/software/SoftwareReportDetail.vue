@@ -259,11 +259,14 @@ export default {
   },
   watch: {
     killRate (val) {
-      if (val <= 100 && val >= 0) {
-        this.killRate = val
-      } else {
-        this.killRate = 0
-      }
+      // if (val <= 100 && val >= 0) {
+      //   this.killRate = String(val).indexOf('.') > 0 &&
+      //     String(val).length <= 3
+      //     ? val
+      //     : parseFloat(val)
+      // } else {
+      //   this.killRate = 0
+      // }
     },
     falseRate (val) {
       if (val <= 100 && val >= 0) {
@@ -549,7 +552,7 @@ export default {
         data: JSON.stringify({
           result: {
             evalutation_time: this.testDate,
-            kill_rate: this.killRate,
+            kill_rate: parseFloat(this.killRate),
             mistake_rate: this.falseRate
           },
           sampledata_list: this.sampledata_list,
@@ -573,6 +576,7 @@ export default {
             type: 'success',
             message: res.message
           })
+          this.init()
         } else {
           this.$message({
             type: 'warning',

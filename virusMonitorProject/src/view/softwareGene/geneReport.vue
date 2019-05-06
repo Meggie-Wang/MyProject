@@ -15,12 +15,12 @@
     margin: 2% auto;
   }
   .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     border-bottom: 1px solid #148F73;
   }
   .top i {
-    position: absolute;
-    left: 10%;
-    display: inline-block;
     width: 40px;
     height: 30px;
     cursor: pointer;
@@ -56,13 +56,12 @@
    * 基因分析报告
   */
   .report_top {
-    margin: 1% 2%;
+    display: flex;
+    justify-content: space-between;
+    margin: 2%;
   }
   .report_top > div {
     width: 49%;
-    margin-top: 1%;
-  }
-  .report_top > div {
     text-align: center;
   }
   .report_top > div > div:first-of-type {
@@ -169,9 +168,11 @@
     padding-bottom: 1%;
   }
   .threatRP .download_button {
-    width: 10%;
   }
   .threatRP_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 1% 1% 0;
   }
   .threatRP_left.red {
@@ -306,9 +307,9 @@
   <div class="container">
     <div class="body">
       <div v-if="geneticData.pretreatment_result">
-        <div class="top clearfix">
+        <div class="top">
           <i @click="back"></i>
-          <el-button class="download_button fr" @click="downloadReport">{{ $t('messages.geneReport.downloadReport') }}</el-button>
+          <el-button class="download_button" @click="downloadReport">{{ $t('messages.geneReport.downloadReport') }}</el-button>
         </div>
         <!-- 基本信息 begin -->
         <div class="inform">
@@ -322,12 +323,12 @@
             <p>{{ $t('messages.geneReport.latestAnalysisTime') }}：<span>{{finishTime}}</span></p>
           </div>        
         </div>
-        <!-- 基本信息 end -->
       </div>
       <el-collapse v-model="activeNames">
+        <!-- 基因分析报告 -->
         <el-collapse-item :title="$t('messages.geneReport.geneAnalysisReport')" name="1">
-          <div class="report_top clearfix">
-            <div class="report_top_left fl">
+          <div class="report_top" v-if="geneticData.decide_result !== '0'">
+            <div class="report_top_left">
               <div class="pngImg">
                 <span>{{ $t('messages.geneReport.neSequenceArrangement') }}</span>
                 <sup>
@@ -343,7 +344,7 @@
                 <button class="download_button" @click="downloadPngImg">{{ $t('messages.geneReport.fileDownload') }}</button>
               </div>
             </div>
-            <div class="report_top_right fr">
+            <div class="report_top_right">
               <div class="svgImg">
                 <span>{{ $t('messages.geneReport.geneLogicDiagram') }}</span>
                 <sup>
@@ -365,16 +366,18 @@
             <div class="report_bottom_body"></div>
           </div>
         </el-collapse-item>
+        <!-- 威胁分析报告 -->
         <el-collapse-item :title="$t('messages.geneReport.threatAnalysisReport')" name="2">
           <div class="threatRP">
             <h4>{{ $t('messages.geneReport.maliciousJudgment') }}</h4>
             <hr />
-            <div class="threatRP_container clearfix">
-              <div class="threatRP_left fl"></div>
-              <button class="download_button fr" @click="yaraDownload">{{ $t('messages.geneReport.yaraRule') }}</button>
+            <div class="threatRP_container">
+              <div class="threatRP_left"></div>
+              <button class="download_button" @click="yaraDownload">{{ $t('messages.geneReport.yaraRule') }}</button>
             </div>
           </div>
         </el-collapse-item>
+        <!-- 行为分析总结 -->
         <el-collapse-item :title="$t('messages.geneReport.behaviorAnalysis')" name="3">
           <div class="behavior_analysis">
             <div class="behaviorButtons" v-if="buttonNames">
@@ -386,6 +389,7 @@
             </div>
           </div>
         </el-collapse-item>
+        <!-- 抗分析检测 -->
         <el-collapse-item :title="$t('messages.geneReport.antiAnalysisDetection')" name="4">
           <div class="resistance_analysis" v-for="(analysisList,index) in analysisData" v-if="index !== 'status'">
             <ul>
@@ -401,6 +405,7 @@
             </ul>
           </div>
         </el-collapse-item>
+        <!-- 网络通联关系 -->
         <el-collapse-item :title="$t('messages.geneReport.generalConnection')" name="5">
           <div class="communication_relationship">
             <p>IP：</p>
@@ -420,6 +425,7 @@
             <p v-else>{{genetic}}</p>
           </div>
         </el-collapse-item> -->
+        <!-- 关键字符串 -->
         <el-collapse-item :title="$t('messages.geneReport.keyString')" name="7">
           <div class="key_string" v-if='geneticData.strings'>
             <div v-for="(geneticString, index) in geneticData.strings.strings" :key="index">

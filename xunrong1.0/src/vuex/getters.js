@@ -1,0 +1,9 @@
+export const mapData = state => state.mapData
+export const broadcastData = state => state.broadcastData
+export const MaliciousInvasion = state => state.MaliciousInvasion
+export const statusData = state => state.statusData
+export const wordcloudData = state => state.wordcloudData
+export const sideBar = state => state.sideBar
+export const LineMaliciousInvasion = state => state.LineMaliciousInvasion
+export const aboutData = state => state.aboutData
+export const language = state => state.language

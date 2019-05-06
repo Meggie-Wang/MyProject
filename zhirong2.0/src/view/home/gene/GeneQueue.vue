@@ -143,8 +143,12 @@ export default {
       width: 80%;
       margin: 0 auto;
       .operate-con {
+        display: flex;
+        justify-content: flex-end;
         padding: 20px 0;
-        text-align: end;
+        div {
+          margin-right: 10px;
+        }
       }
       .btn-container {
         margin-top: 1rem;

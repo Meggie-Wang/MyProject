@@ -34,6 +34,16 @@
           <el-table-column
             prop="model_name"
             label="模型名称">
+            <template slot-scope="scope">
+              <el-popover
+                placement="right-start"
+                :title="scope.row.model_name + ':'"
+                width="300"
+                trigger="hover"
+                :content="scope.row.model_introduce || '无'">
+                <span slot="reference">{{scope.row.model_name}}</span>
+              </el-popover>
+            </template>
           </el-table-column>
           <el-table-column
             label="创建时间">
@@ -49,7 +59,7 @@
             </template>
           </el-table-column>
           <el-table-column
-            v-if="$store.state.editAuth"
+            v-if="$store.state.editAuth && $tokenName !== 'guoan'"
             label="操作"
             width="100">
             <template slot-scope="scope">
