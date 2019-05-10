@@ -16,7 +16,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <el-button @click="dialogTableVisible2 = !dialogTableVisible2">添加用户</el-button>
+        <el-button @click="formShow(dialogTableVisible2)">添加用户</el-button>
       </div>
       <ul>
         <li>用户名</li>
@@ -38,9 +38,9 @@
           <span v-else>离线</span>
         </li>
         <li v-if="$tokenName === 'gtd' || $tokenName === 'zhirong'" style="min-width: 430px;">
-          <el-button size="mini" @click="dialogTableVisibleChangeGroup = !dialogTableVisibleChangeGroup; currentUser = item.name" class="resetPassword"><span>权限修改</span></el-button>
-          <el-button size="mini" class="resetPassword" @click="getUserLimitTime(item.name);dialogTableVisibleLimitTime = !dialogTableVisibleLimitTime; currentUser = item.name"><span>期限修改</span></el-button>
-          <el-button size="mini" class="resetPassword" @click="dialogTableVisibleChangePwd = !dialogTableVisibleChangePwd; currentUser = item.name"><span>重置密码</span></el-button>
+          <el-button size="mini" @click="formShow(dialogTableVisibleChangeGroup); currentUser = item.name" class="resetPassword"><span>权限修改</span></el-button>
+          <el-button size="mini" class="resetPassword" @click="formShow(dialogTableVisibleLimitTime);getUserLimitTime(item.name);currentUser = item.name"><span>期限修改</span></el-button>
+          <el-button size="mini" class="resetPassword" @click="formShow(dialogTableVisibleChangePwd);currentUser = item.name"><span>重置密码</span></el-button>
           <el-button size="mini" class="resetPassword" @click="deleteUser(item.name)"><span>删除用户</span></el-button>
         </li>
       </ul>
@@ -423,6 +423,13 @@ export default {
     }
   },
   methods: {
+    formShow (val) {
+      if (localStorage.userClass === '2') {
+        this[val] = !this[val]
+      } else {
+        this.$message.warning('您没有此项权限！')
+      }
+    },
     userNameCheck (val) {
       this.usernameLengthError = val.length < 6 || val.length > 16
       if (!this.usernameLengthError) {
@@ -528,26 +535,30 @@ export default {
       }
     },
     deleteUser (val) {
-      this.$confirm('此操作将删除用户, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.$api.post('delete_user', {
-          username: val
-        }).then(res => {
-          if (res.status === 200) {
-            this.$message({
-              message: res.message,
-              type: 'success'
-            })
-          } else {
-            this.$message.error(res.message)
-          }
-          this.init()
+      if (localStorage.userClass === '2') {
+        this.$confirm('此操作将删除用户, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$api.post('delete_user', {
+            username: val
+          }).then(res => {
+            if (res.status === 200) {
+              this.$message({
+                message: res.message,
+                type: 'success'
+              })
+            } else {
+              this.$message.error(res.message)
+            }
+            this.init()
+          })
+        }).catch(() => {
         })
-      }).catch(() => {
-      })
+      } else {
+        this.$message.warning('您没有此项权限！')
+      }
     },
     changePwd () {
       var obj = {}
@@ -756,7 +767,7 @@ export default {
     width: 500px;
   }
   .UserList .ul-list-style .el-select .el-input input {
-    max-width: 198px;
+    width: 198px;
   }
   .UserList .el-button--mini {
     padding: 7px 10px;

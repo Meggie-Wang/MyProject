@@ -15,7 +15,7 @@
             <span
               label="process"
               :class="checkList.indexOf('process') > -1 ? 'detectFinished' : ''"
-              :style="{'background-color': checkList.indexOf('process') > -1 ? (programLoaclDataShow && programRemoteDataShow ? 'red' : '#315697') : '', 'boeder-color': checkList.indexOf('process') > -1 ? (programLoaclDataShow && programRemoteDataShow ? 'red' : '#315697') : ''}">
+              :style="{'background-color': checkList.indexOf('process') > -1 ? (programLoaclDataShow && programRemoteDataShow ? '#d34c5c' : '#315697') : '', 'boeder-color': checkList.indexOf('process') > -1 ? (programLoaclDataShow && programRemoteDataShow ? '#d34c5c' : '#315697') : ''}">
               程序自检<i class="el-icon-loading" v-if="processLoading" style="margin-left: 2px;"></i>
             </span>
           </el-tooltip>
@@ -27,7 +27,7 @@
             <span
               label="hardware"
               :class="checkList.indexOf('hardware') > -1 ? 'detectFinished' : ''"
-              :style="{'background-color': checkList.indexOf('hardware') > -1 ? (hw_checkInterfaceDataShow ? 'red' : '#315697') : '', 'border-color': checkList.indexOf('hardware') > -1 ? (hw_checkInterfaceDataShow ? 'red' : '#315697') : ''}">
+              :style="{'background-color': checkList.indexOf('hardware') > -1 ? (hw_checkInterfaceDataShow ? '#d34c5c' : '#315697') : '', 'border-color': checkList.indexOf('hardware') > -1 ? (hw_checkInterfaceDataShow ? '#d34c5c' : '#315697') : ''}">
               硬件自检<i class="el-icon-loading" v-if="hardwareLoading" style="margin-left: 2px;"></i>
             </span>
           </el-tooltip>
@@ -39,7 +39,7 @@
             <span
               label="config"
               :class="checkList.indexOf('config') > -1 ? 'detectFinished' : ''"
-              :style="{'background-color': checkList.indexOf('config') > -1 ? (configDataShow ? 'red' : '#315697') : '', 'border-color': checkList.indexOf('config') > -1 ? (configDataShow ? 'red' : '#315697') : ''}">
+              :style="{'background-color': checkList.indexOf('config') > -1 ? (configDataShow ? '#d34c5c' : '#315697') : '', 'border-color': checkList.indexOf('config') > -1 ? (configDataShow ? '#d34c5c' : '#315697') : ''}">
               配置文件自检<i class="el-icon-loading" v-if="configLoading" style="margin-left: 2px;"></i>
             </span>
           </el-tooltip>
@@ -51,7 +51,7 @@
             <span
               label="license"
               :class="checkList.indexOf('license') > -1 ? 'detectFinished' : ''"
-              :style="{'background-color': checkList.indexOf('license') > -1 ? (licenseDataShow ? 'red' : '#315697') : '', 'border-color': checkList.indexOf('license') > -1 ? (licenseDataShow ? 'red' : '#315697') : ''}">
+              :style="{'background-color': checkList.indexOf('license') > -1 ? (licenseDataShow ? '#d34c5c' : '#315697') : '', 'border-color': checkList.indexOf('license') > -1 ? (licenseDataShow ? '#d34c5c' : '#315697') : ''}">
               License自检<i class="el-icon-loading" v-if="licenseLoading" style="margin-left: 2px;"></i>
             </span>
           </el-tooltip>
@@ -309,125 +309,114 @@ export default {
   },
   methods: {
     startDetect () {
-      this.programLoaclDataShow = false
-      this.programRemoteDataShow = false
-      this.hw_checkDiskDataShow = false
-      this.hw_checkInterfaceDataShow = false
-      this.configDataShow = false
-      this.licenseDataShow = false
-      this.checkList = []
-      var obj = {}
-      obj.license = '1'
-      obj.process = '1'
-      obj.config = '1'
-      obj.hardware = '1'
-      this.loading = true
-      this.processLoading = true
-      this.$api.get('self_check', obj).then((res) => {
-        if (res.status === 200) {
-          setTimeout(() => {
-            this.programLoaclData = res.data.process_check.local_error_process
-            this.programLoaclData.forEach((i, j) => {
-              if (i[Object.keys(this.programLoaclData[j])[0]].status !== 'OK') {
-                this.programLoaclDataShow = true
-              }
-            })
-            this.programRemoteData = res.data.process_check.remote_error_process
-            this.programRemoteData.forEach((m, n) => {
-              if (m[Object.keys(this.programRemoteData[n])[0]].status !== 'OK') {
-                this.programRemoteDataShow = true
-              }
-            })
-            this.checkList.push('process')
-            this.processLoading = false
-            this.hardwareLoading = true
+      if (localStorage.userClass === '2') {
+        this.programLoaclDataShow = false
+        this.programRemoteDataShow = false
+        this.hw_checkDiskDataShow = false
+        this.hw_checkInterfaceDataShow = false
+        this.configDataShow = false
+        this.licenseDataShow = false
+        this.checkList = []
+        var obj = {}
+        obj.license = '1'
+        obj.process = '1'
+        obj.config = '1'
+        obj.hardware = '1'
+        this.$api.get('self_check', obj).then((res) => {
+          if (res.status === 200) {
             setTimeout(() => {
-              this.hw_checkData = res.data.hw_check
-              for (var o in this.hw_checkData.disk_health) {
-                if (this.hw_checkData.disk_health[o] !== 'OK') {
-                  this.hw_checkDiskDataShow = true
+              this.loading = true
+              this.processLoading = true
+              this.programLoaclData = res.data.process_check.local_error_process
+              this.programLoaclData.forEach((i, j) => {
+                if (i[Object.keys(this.programLoaclData[j])[0]].status !== 'OK') {
+                  this.programLoaclDataShow = true
                 }
-              }
-              for (var p in this.hw_checkData.interface_status) {
-                if (this.hw_checkData.interface_status[p] !== 'OK') {
-                  this.hw_checkInterfaceDataShow = true
+              })
+              this.programRemoteData = res.data.process_check.remote_error_process
+              this.programRemoteData.forEach((m, n) => {
+                if (m[Object.keys(this.programRemoteData[n])[0]].status !== 'OK') {
+                  this.programRemoteDataShow = true
                 }
-              }
-              this.checkList.push('hardware')
-              this.hardwareLoading = false
-              this.configLoading = true
+              })
+              this.checkList.push('process')
+              this.processLoading = false
+              this.hardwareLoading = true
               setTimeout(() => {
-                this.configData = res.data.config_check
-                this.configData.forEach((e, f) => {
-                  if (e[Object.keys(this.configData[f])[0]].status !== 'OK') {
-                    this.configDataShow = true
+                this.hw_checkData = res.data.hw_check
+                for (var o in this.hw_checkData.disk_health) {
+                  if (this.hw_checkData.disk_health[o] !== 'OK') {
+                    this.hw_checkDiskDataShow = true
                   }
-                })
-                this.checkList.push('config')
-                this.configLoading = false
-                this.licenseLoading = true
+                }
+                for (var p in this.hw_checkData.interface_status) {
+                  if (this.hw_checkData.interface_status[p] !== 'OK') {
+                    this.hw_checkInterfaceDataShow = true
+                  }
+                }
+                this.checkList.push('hardware')
+                this.hardwareLoading = false
+                this.configLoading = true
                 setTimeout(() => {
-                  this.licenseData = res.data.license_check
-                  if (this.licenseData[0] !== 0) {
-                    this.licenseDataShow = true
-                  }
-                  this.checkList.push('license')
-                  this.licenseLoading = false
-                  this.loading = false
+                  this.configData = res.data.config_check
+                  this.configData.forEach((e, f) => {
+                    if (e[Object.keys(this.configData[f])[0]].status !== 'OK') {
+                      this.configDataShow = true
+                    }
+                  })
+                  this.checkList.push('config')
+                  this.configLoading = false
+                  this.licenseLoading = true
+                  setTimeout(() => {
+                    this.licenseData = res.data.license_check
+                    if (this.licenseData[0] !== 0) {
+                      this.licenseDataShow = true
+                    }
+                    this.checkList.push('license')
+                    this.licenseLoading = false
+                    this.loading = false
+                  }, 1000)
                 }, 1000)
               }, 1000)
             }, 1000)
-          }, 1000)
-        } else {
-          this.$message.error(res.message)
-        }
-      })
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      } else {
+        this.$message.warning('您没有此项权限！')
+      }
     },
     // 重启设备
     reset () {
-      this.$confirm('此操作将重启设备, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.$api.post('machine_power', {
-          signal: 1
-        }).then(res => {
-          if (res.status === 200) {
-            this.$message({
-              message: res.message,
-              type: 'success'
-            })
-          } else {
-            this.$message.error(res.message)
-          }
-        })
-      }).catch(() => {})
+      if (localStorage.userClass === '2') {
+        this.$confirm('此操作将重启设备, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$api.post('machine_power', {
+            signal: 1
+          }).then(res => {
+            if (res.status === 200) {
+              this.$message({
+                message: '重启设备成功',
+                type: 'success'
+              })
+            } else {
+              this.$message.error(res.message)
+            }
+          })
+        }).catch(() => {})
+      } else {
+        this.$message.warning('您没有此项权限！')
+      }
     },
     // 设置系统时间
     SetupTime () {
-      this.$api.post('machine_sys_time', {
-        time: this.$common.dateChange(this.sys_time)
-      }).then(res => {
-        if (res.status === 200) {
-          this.$message({
-            message: res.message,
-            type: 'success'
-          })
-        } else {
-          this.$message.error(res.message)
-        }
-      })
-    },
-    // 关闭设备
-    close () {
-      this.$confirm('此操作将关闭设备, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.$api.post('machine_power', {
-          signal: 0
+      if (localStorage.userClass === '2') {
+        this.$api.post('machine_sys_time', {
+          time: this.$common.dateChange(this.sys_time)
         }).then(res => {
           if (res.status === 200) {
             this.$message({
@@ -438,7 +427,34 @@ export default {
             this.$message.error(res.message)
           }
         })
-      }).catch(() => {})
+      } else {
+        this.$message.warning('您没有此项权限！')
+      }
+    },
+    // 关闭设备
+    close () {
+      if (localStorage.userClass === '2') {
+        this.$confirm('此操作将关闭设备, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$api.post('machine_power', {
+            signal: 0
+          }).then(res => {
+            if (res.status === 200) {
+              this.$message({
+                message: res.message,
+                type: 'success'
+              })
+            } else {
+              this.$message.error(res.message)
+            }
+          })
+        }).catch(() => {})
+      } else {
+        this.$message.warning('您没有此项权限！')
+      }
     },
     // 获取数据
     init () {
@@ -448,19 +464,23 @@ export default {
     },
     // 系统升级
     update () {
-      this.uploadLoading = true
-      setTimeout(() => {
-        this.$api.get('vdb_update').then((res) => {
-          if (res) {
-            if (res.status === 0) {
-              this.$message.success(res.msg)
-            } else {
-              this.$message.warning(res.msg)
+      if (localStorage.userClass === '2') {
+        this.uploadLoading = true
+        setTimeout(() => {
+          this.$api.get('vdb_update').then((res) => {
+            if (res) {
+              if (res.status === 200) {
+                this.$message.success(res.msg)
+              } else {
+                this.$message.warning(res.msg)
+              }
             }
-          }
-          this.uploadLoading = false
-        })
-      }, 3000)
+            this.uploadLoading = false
+          })
+        }, 0)
+      } else {
+        this.$message.warning('您没有此项权限！')
+      }
     },
     licenseTime () {
       this.$api.get('license_auth').then((res) => {
@@ -643,6 +663,6 @@ export default {
     border-top: none;
   }
   .SystemSelfCheck .el-collapse-item__header {
-    background: red;
+    background: #d34c5c;
   }
 </style>

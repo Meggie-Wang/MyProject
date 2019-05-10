@@ -6,6 +6,8 @@ import router from './router'
 import store from './vuex'
 import VueI18n from 'vue-i18n'
 
+import './config.js'
+
 import echarts from 'echarts'
 import BaiduMap from 'vue-baidu-map'
 import VueAwesomeSwiper from 'vue-awesome-swiper'

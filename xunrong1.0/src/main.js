@@ -19,6 +19,11 @@ import 'element-ui/lib/theme-chalk/index.css'
 
 import bs from '@/assets/js/backspace.js'
 
+import icon from './assets/img/logoIcon.png'
+// web icon
+const webIcon = document.querySelector('#web-icon')
+webIcon.href = icon
+
 // 实现对字符码的截获，keypress中屏蔽了这些功能按键
 document.onkeypress = bs.banBackSpace
 // 对功能按键的获取

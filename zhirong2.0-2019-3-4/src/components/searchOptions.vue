@@ -280,8 +280,8 @@
             <img
               :src="$img.add"
               :style="{transform: addTagCon ? 'rotate(45deg)' : 'rotate(0deg)'}"
-              @click="tagConIcon"/>
-            <span v-if="addTagCon" @click="showTagCon">
+              @click="addTagCon = !addTagCon; tagConIcon()"/>
+            <span v-if="addTagCon" @click="tagConIcon">
               <input
                 type="text"
                 name="newTag"
@@ -498,10 +498,6 @@ export default {
   },
   methods: {
     tagConIcon (e) {
-      this.addTagCon = !this.addTagCon
-      event.stopPropagation()
-    },
-    showTagCon (e) {
       event.stopPropagation()
     },
     clearChoose () {
@@ -550,6 +546,7 @@ export default {
       })
     },
     urlSync (val) {
+      this.addTagCon = false
       // 更新url上pageNo
       // 携带选择条件
       // 携带标签
@@ -606,27 +603,32 @@ export default {
         this.end_time = this.$common.dateChange(str[1])
       }
     },
-    addTagAct (e) {
-      if (this.newTag.length >= 2) {
-        this.$api.get('add_label', {
-          user_id: localStorage.session_id || '3',
-          label_name: this.newTag
-        }).then(res => {
-          if (res.status === 200) {
-            this.$message({
-              message: res.message,
-              type: 'success'
-            })
-            this.$store.dispatch('getAllLable')
-          } else {
-            this.$message({
-              message: res.message,
-              type: 'warning'
-            })
-          }
-          this.addTagCon = false
+    addTagAct () {
+      if (this.newTag.length < 2) {
+        this.$message({
+          message: '请正确输入标签名',
+          type: 'warning'
         })
+        return
       }
+      this.$api.get('add_label', {
+        user_id: localStorage.session_id || '3',
+        label_name: this.newTag
+      }).then(res => {
+        if (res.status === 200) {
+          this.$message({
+            message: res.message,
+            type: 'success'
+          })
+          this.$store.dispatch('getAllLable')
+        } else {
+          this.$message({
+            message: res.message,
+            type: 'warning'
+          })
+        }
+        this.addTagCon = false
+      })
     },
     initList (page) {
       this.chooseTags = []

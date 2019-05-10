@@ -13,7 +13,6 @@
           <el-tooltip class="item" effect="light" placement="top-start">
             <div slot="content">已使用空间 {{usedSpacePercent}}%<br/>{{usedSpace}}G</div>
             <div :style="{width: usedSpacePercent + '%'}" class="saveSpace_inner">{{usedSpacePercent}}%</div>
-            }
           </el-tooltip>
           <el-tooltip class="item" effect="light" placement="top-start">
             <div slot="content">未使用空间 {{freeSpacePercent}}%<br/>{{freeSpace}}G</div>
@@ -56,12 +55,15 @@
         <h3><span>清理策略</span></h3>
         <div>
           <span>清理文件类型</span><el-checkbox-group v-model="clearFileType">
-            <el-checkbox-button label="PE32">PE32</el-checkbox-button>
-            <el-checkbox-button label="TXT">TXT</el-checkbox-button>
+            <el-checkbox-button label="XML">XML</el-checkbox-button>
             <el-checkbox-button label="PDF">PDF</el-checkbox-button>
-            <el-checkbox-button label="ELF">ELF</el-checkbox-button>
             <el-checkbox-button label="ZIP">ZIP</el-checkbox-button>
+            <el-checkbox-button label="RAR">RAR</el-checkbox-button>
             <el-checkbox-button label="HTML">HTML</el-checkbox-button>
+            <el-checkbox-button label="TEXT">TEXT</el-checkbox-button>
+            <el-checkbox-button label="Windows">Windows</el-checkbox-button>
+            <el-checkbox-button label="Dos">Dos</el-checkbox-button>
+            <el-checkbox-button label="Linux">Linux</el-checkbox-button>
           </el-checkbox-group>
         </div>
         <div class="sampleMaliceStyle">
@@ -114,7 +116,7 @@
         </div>
       </div>
     </div>
-    <div class="sampleTable" v-if="TableData && TableData.length > 0">
+    <div class="sampleTable" v-if="showTable">
       <el-table
         class="storage-list"
         :data="TableData"
@@ -131,6 +133,14 @@
           :resizable="false">
           <template slot-scope="scope">
             <FileName :name="scope.row.sample_name" :length="20" />
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="submit_time"
+          label="上传时间"
+          :resizable="false">
+          <template slot-scope="scope">
+            <span>{{$common.dateChange(scope.row.submit_time)}}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -193,7 +203,7 @@ export default {
       sampleMalice: '',
       sampleMaliceOpt: [{
         label: '安全',
-        value: 'ok'
+        value: 'yes'
       }, {
         label: '恶意',
         value: 'no'
@@ -217,17 +227,14 @@ export default {
       threshold: 0,
       clearLoading: false,
       searchLoading: false,
-      is_unFinished: true
+      is_unFinished: true,
+      showTable: false
       // apiComplete: 0
     }
   },
   watch: {
   },
   methods: {
-    inputCheck (val, minLimit, maxLimit) {
-      this[val] = Number(this[val].toString().replace(/\D/g, ''))
-      this[val] = this[val] > maxLimit ? maxLimit : (this[val] < minLimit ? minLimit : this[val])
-    },
     saveWarningData () {
       this.$api.get('storage_alarm_setting').then((res) => {
         if (res && res.status === 200) {
@@ -240,41 +247,49 @@ export default {
       })
     },
     warningSettingSave () {
-      if (this.limitValue.toString() !== this.limitValue.toString().replace(/\D/g, '') || this.limitValue > 100 || this.limitValue < 10) {
-        this.$message.warning('请输入10-100的整数')
+      if (localStorage.userClass === '2') {
+        if (this.limitValue.toString() !== this.limitValue.toString().replace(/\D/g, '') || this.limitValue > 100 || this.limitValue < 10) {
+          this.$message.warning('请输入10-100的整数')
+        } else {
+          this.$api.post('storage_alarm_setting', {
+            use: Number(this.use),
+            threshold: this.limitValue,
+            alarm_type: this.alarmType
+          }).then((res) => {
+            if (res.status === 200) {
+              this.$message({
+                message: res.msg,
+                type: 'success'
+              })
+              this.saveSpaceData()
+              this.saveWarningData()
+            } else {
+              this.$message.error(res.msg)
+            }
+          })
+        }
       } else {
-        this.$api.post('storage_alarm_setting', {
-          use: Number(this.use),
-          threshold: this.limitValue,
-          alarm_type: this.alarmType
-        }).then((res) => {
-          if (res.status === 200) {
-            this.$message({
-              message: res.msg,
-              type: 'success'
-            })
-            this.saveSpaceData()
-            this.saveWarningData()
-          } else {
-            this.$message.error(res.msg)
-          }
-        })
+        this.$message.warning('您没有此项权限！')
       }
     },
     clearTableData () {
       if (this.counts.toString() !== this.counts.toString().replace(/\D/g, '') || this.counts > 10000 || this.counts < 100) {
         this.$message.warning('请输入100-10000的整数')
       } else {
-        this.searchLoading = true
-        this.$api.get('storage_clean', {
+        var obj = {
           counts: this.counts,
           file_types: this.clearFileType.join(','),
-          malicious: this.sampleMalice,
-          submit_time_range: this.upLoadTime.join(','),
-          detect_time_range: this.detectCompleteTime.join(',')
-        }).then((res) => {
+          submit_time_range: this.upLoadTime === null ? [] : this.upLoadTime.join(','),
+          detect_time_range: this.detectCompleteTime === null ? [] : this.detectCompleteTime.join(',')
+        }
+        if (this.sampleMalice !== '') {
+          obj.malicious = this.sampleMalice === '-1' ? '' : this.sampleMalice
+        }
+        this.searchLoading = true
+        this.$api.get('storage_clean', obj).then((res) => {
           if (res.status === 200) {
             this.TableData = res.data
+            this.showTable = true
             this.searchLoading = false
           }
           // this.apiComplete += 1
@@ -296,27 +311,31 @@ export default {
       }
     },
     clear () {
-      this.$confirm('此操作将清除所选项, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.clearLoading = true
-        this.$api.post('storage_clean', {
-          id_list: this.check
-        }).then(res => {
-          if (res.status === 200) {
-            this.$message({
-              message: res.msg,
-              type: 'success'
-            })
-            this.clearLoading = false
-          } else {
-            this.$message.error(res.msg)
-          }
-          this.clearTableData()
-        })
-      }).catch(() => {})
+      if (localStorage.userClass === '2') {
+        this.$confirm('此操作将清除所选项, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.clearLoading = true
+          this.$api.post('storage_clean', {
+            id_list: this.check
+          }).then(res => {
+            if (res.status === 200) {
+              this.$message({
+                message: res.msg,
+                type: 'success'
+              })
+              this.clearLoading = false
+            } else {
+              this.$message.error(res.msg)
+            }
+            this.clearTableData()
+          })
+        }).catch(() => {})
+      } else {
+        this.$message.warning('您没有此项权限！')
+      }
     },
     saveSpaceData () {
       this.$api.get('storage_usage').then((res) => {
@@ -335,10 +354,8 @@ export default {
     }
   },
   mounted () {
-    setTimeout(() => {
-      this.saveWarningData()
-      this.saveSpaceData()
-    }, 500)
+    this.saveWarningData()
+    this.saveSpaceData()
   }
 }
 
@@ -456,6 +473,6 @@ export default {
     box-shadow: none;
   }
   .ResourceClear .sampleMaliceStyle .el-select .el-input input {
-    max-width: 198px;
+    width: 198px;
   }
 </style>

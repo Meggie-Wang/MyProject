@@ -4,18 +4,18 @@
     :style="{
       'backgroundColor': $route.path === '/Main' ? '' : '#315697',
       'lineHeight': $route.path === '/Main' ? '' : '80px',
-      'padding': userClass === '1' || userClass === '2' ? '0' : '0 2.5%',
-      'box-shadow': userClass === '1' || userClass === '2' ? '1px 1px 5px #000' : 'none',
-      'z-index': userClass === '1' || userClass === '2' ? '101' : ''
+      'padding': userClass === '1' || userClass === '2' || userClass === '5' ? '0' : '0 2.5%',
+      'box-shadow': userClass === '1' || userClass === '2' || userClass === '5' ? '1px 1px 5px #000' : 'none',
+      'z-index': userClass === '1' || userClass === '2' || userClass === '5' ? '101' : ''
     }">
 
     <div
       class="logo __handCursor"
       @click="goMain"
       :style="{
-        'width': userClass === '1' || userClass === '2' ? '200px' : '25%',
-        'left': $route.path === '/Main' || (userClass === '1' || userClass === '2') ? '' : '7.5%',
-        'justify-content': $route.path === '/Main' || (userClass === '1' || userClass === '2') ? 'center' : 'flex-start',
+        'width': userClass === '1' || userClass === '2'  || userClass === '5' ? '200px' : '25%',
+        'left': $route.path === '/Main' || (userClass === '1' || userClass === '2' || userClass === '5') ? '' : '7.5%',
+        'justify-content': $route.path === '/Main' || (userClass === '1' || userClass === '2'  || userClass === '5') ? 'center' : 'flex-start',
         'align-items': $route.path === '/Main' ? 'flex-end' : 'center'
       }">
       <img
@@ -37,7 +37,7 @@
 
     <div
       class="title"
-      v-if="userClass === '1' || userClass === '2'"
+      v-if="userClass === '1' || userClass === '2' || userClass === '5'"
       style="width: calc(100% - 200px)">
       <h1>{{ title}}</h1>
     </div>

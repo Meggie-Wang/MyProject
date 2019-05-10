@@ -152,7 +152,7 @@
                 <span
                   v-if="Number(scope.row.is_detect) === 3 || Number(scope.row.is_detect) === 4 || Number(scope.row.is_detect) === -1"
                   class="custom-tag"
-                  @click="re_dynamic_detect(scope.row)">{{(Number(scope.row.is_detect) === 3 || Number(scope.row.is_detect) === 4) ? '重新预处理检测' : (Number(scope.row.is_detect) === -1 ? '重新深度检测' : '')}}</span>
+                  @click="re_dynamic_detect(scope.row)">{{(Number(scope.row.is_detect) === 3 || Number(scope.row.is_detect) === 4) ? '重新检测' : (Number(scope.row.is_detect) === -1 ? '深度分析' : '')}}</span>
                 <span style="font-size: 12px;" v-else>{{isDetectDic[scope.row.is_detect]}}</span>
               </template>
             </el-table-column>

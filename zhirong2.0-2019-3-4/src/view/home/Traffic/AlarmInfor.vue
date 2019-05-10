@@ -39,31 +39,37 @@
           :cell-style="{borderColor: '#3a537e', textAlign: 'center'}"
           :header-cell-style="{borderColor: '#3a537e', textAlign: 'center', color: '#000'}"
           style="border: 1px solid #3a537e">
-          <el-table-column
-            label="发现时间"
-            :show-overflow-tooltip="true">
+          <el-table-column label="发现时间" :show-overflow-tooltip="true" width="170">
             <template slot-scope="scope">
               {{ $common.dateChange(scope.row.open_time) }}
             </template>
           </el-table-column>
-          <el-table-column
-            label="文件名"
-            prop="file_name"
-            :show-overflow-tooltip="true">
+          <el-table-column label="文件名" min-width="180">
+            <template slot-scope="scope">
+              <FileName :name="scope.row.file_name" :length="20" />
+            </template>
           </el-table-column>
-          <el-table-column
-            label="md5值"
-            prop="sample_md5"
-            :show-overflow-tooltip="true">
+          <el-table-column label="md5值" min-width="220">
+            <template slot-scope="scope">
+              <FileName :name="scope.row.sample_md5" :length="20" />
+            </template>
           </el-table-column>
           <el-table-column label="协议" width="70">
             <template slot-scope="scope">
               {{scope.row.protocol.toUpperCase()}}
             </template>
           </el-table-column>
-          <el-table-column prop="source_ip" label="源IP" width="120"></el-table-column>
+          <el-table-column label="源IP" min-width="120">
+            <template slot-scope="scope">
+              <FileName :name="scope.row.source_ip" :length="13" />
+            </template>
+          </el-table-column>
           <el-table-column prop="source_port" label="源端口" width="100"></el-table-column>
-          <el-table-column prop="target_ip" label="目的IP" width="120"></el-table-column>
+          <el-table-column label="目的IP" min-width="120">
+            <template slot-scope="scope">
+              <FileName :name="scope.row.target_ip" :length="13" />
+            </template>
+          </el-table-column>
           <el-table-column prop="target_port" label="目的端口" width="100"></el-table-column>
           <el-table-column prop="virus_name" label="病毒名称" width="120"></el-table-column>
         </el-table>
@@ -197,7 +203,7 @@ export default {
 </style>
 <style lang="scss">
   .AlarmInfor .el-select .el-input input {
-    max-width: 198px;
+    width: 198px;
   }
   .el-tooltip__popper.is-dark {
     background: #fff;

@@ -8,7 +8,7 @@
     <div class="StatisticsRecord-con">
       <el-tabs v-model="statisticsType" @tab-click="handleClick">
         <el-tab-pane v-for="(i, j) in statisticsTypeOption" :key="j" :label="i.label" :name="i.name">
-          <section class="operate-con">
+          <section class="StaticOperate-con">
             <el-input v-if="statisticsType === '3'" v-model="ip" placeholder="请输入主机IP"></el-input>
             <el-select
               v-if="statisticsType !== '3' && statisticsType !== '4'"
@@ -30,10 +30,11 @@
             </el-select>
             <el-date-picker
               v-model="date"
-              type="daterange"
+              type="datetimerange"
               start-placeholder="开始日期"
               end-placeholder="结束日期"
-              @change="changeTime">
+              @change="changeTime"
+              format="yyyy-MM-dd">
             </el-date-picker>
             <div v-if="statisticsType === '3'">
               <el-button @click="searchIp">搜索</el-button>
@@ -344,7 +345,7 @@ export default {
     .StatisticsRecord-con {
       width: 80%;
       margin: 1rem auto;
-      .operate-con {
+      .StaticOperate-con {
         display: flex;
         justify-content: flex-end;
         padding: 20px 0;
@@ -367,7 +368,7 @@ export default {
   }
 </style>
 <style lang="scss">
-  .operate-con {
+  .StaticOperate-con {
     .el-date-editor {
       display: inline-flex;
       box-sizing: border-box;
@@ -377,5 +378,8 @@ export default {
         border: none!important;
       }
     }
+  }
+  .StaticOperate-con .el-select .el-input input {
+    width: 198px;
   }
 </style>

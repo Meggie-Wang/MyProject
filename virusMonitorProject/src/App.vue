@@ -3,18 +3,17 @@
     position absolute
     height 100%
     width 100%
-    
-  * 
+
+  *
     margin: 0;
     padding: 0;
-    font-family: 'Adobe黑体';
 </style>
 <template>
-  <div id="app"> 
+  <div id="app">
     <keep-alive>
       <router-view v-if="$route.meta.keeplive"></router-view>
     </keep-alive>
-    
+
     <router-view v-if="!$route.meta.keeplive" class="router-view"></router-view>
   </div>
 </template>

@@ -1,14 +1,20 @@
 import axios from 'axios'
 const requestUrl = '//taishi.roarpanda.com:9000/'
-// const requestUrl = '//192.168.1.136:8000/'
 const securityHeadPic = '//taishi.roarpanda.com:9527/'
+
+// if (Vue.config.productionTip) {
+//   requestUrl = 'http://taishi.roarpanda.com:29000/'
+// } else {
+//   requestUrl = window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '') + '/'
+// }
+
 export default {
   requestUrl,
   securityHeadPic,
   /*
   * yhy
   * 获取url参数
-  */ 
+  */
   getUrlByName(paramValue) {
     if (location.href.indexOf('?') > -1) {
       let url = location.href.split('?')[1]
@@ -52,7 +58,7 @@ export default {
     //     method: 'post',
     //     url:url,
     //     data:params
-    // }).then((res)=>{        
+    // }).then((res)=>{
     // });
     // 方法三
     const url = requestUrl + 'user/newlogin/'

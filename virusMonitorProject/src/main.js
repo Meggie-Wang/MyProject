@@ -21,7 +21,7 @@ import {
   Main,
   Container,
   Menu,
-  Submenu, 
+  Submenu,
   MenuItem,
   Select, Input, Option,
   Upload, Collapse, CollapseItem,
@@ -33,6 +33,7 @@ import {
 } from 'element-ui'
 
 import 'url-search-params-polyfill'
+import icon from './assets/img/logoIcon.png'
 
 Vue.component(Pagination.name, Pagination)
 Vue.component(DatePicker.name, DatePicker)
@@ -81,6 +82,14 @@ Vue.use(DatePicker)
 Vue.prototype.$axios = axios
 Vue.prototype.$echarts = echarts
 Vue.prototype.$message = Message
+
+// web icon
+const webIcon = document.querySelector('#web-icon')
+webIcon.href = icon
+
+// 项目的中英文名字
+Vue.prototype.$projectEnName = 'project'
+Vue.prototype.$projectCnName = document.title = '数戎-全球恶意代码软件基因大数据服务平台'
 
 window.bus = new Vue()
 

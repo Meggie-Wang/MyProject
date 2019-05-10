@@ -289,6 +289,14 @@ export const getAnalysisReportDetail = ({commit}, id) => {
 // 更新样本的重要级别
 export const setFileImportLevel = ({commit}, obj) => {
   _this.$api.get('important_sign', obj).then(res => {
-    commit('setFileImportLevel', res)
+    if (res.status === 200) {
+      commit('setFileImportLevel', res)
+    } else {
+      Notification.warning({
+        title: '警告',
+        message: res.message,
+        duration: 2000
+      })
+    }
   })
 }

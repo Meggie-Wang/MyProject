@@ -210,11 +210,11 @@ export default {
 </style>
 <style>
   .block .el-date-editor {
-    border: 1px solid #3a537e;
+    border: 1px solid #3a537e!important;
     border-radius: 4px;
   }
   .output .el-date-editor {
-    border: 1px solid #3a537e;
+    border: 1px solid #3a537e!important;
     border-radius: 4px 0 0 4px;
     border-right: none;
   }

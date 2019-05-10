@@ -16,7 +16,8 @@
               v-model="outputReportTime"
               type="datetimerange"
               start-placeholder="开始日期"
-              end-placeholder="结束日期">
+              end-placeholder="结束日期"
+              format="yyyy-MM-dd">
             </el-date-picker>
           </div>
           <div v-else>
@@ -34,7 +35,7 @@
             <el-input v-model="AlarmNum" placeholder="请输入数量（10-100）"></el-input>
           </div>
         </div>
-        <el-button :disabled="dialogTitle === '实时报表设置' ? (outputReportTime.length === 0 || AlarmNum === '') : (AlarmNum === '')" @click="dialogTitle === '实时报表设置' ? outputReport() : timingSetting ()">{{ dialogTitle === '实时报表设置' ? '生成报表' : '保存设置' }}</el-button>
+        <el-button :disabled="dialogTitle === '实时报表设置' ? ((outputReportTime === null ? outputReportTime === null : outputReportTime.length === 0) || AlarmNum === '') : (AlarmNum === '')" @click="dialogTitle === '实时报表设置' ? outputReport() : timingSetting ()">{{ dialogTitle === '实时报表设置' ? '生成报表' : '保存设置' }}</el-button>
       </el-dialog>
     </div>
     <div class="ReportRecord">
@@ -46,6 +47,7 @@
             type="datetimerange"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
+            format="yyyy-MM-dd"
             @change="changeReportRecordTime">
           </el-date-picker>
           <el-table
@@ -198,10 +200,14 @@ export default {
       })
     },
     showDialog (val) {
-      this.dialogTitle = val
-      this.centerDialogVisible = true
-      if (val === '定时报表设置') {
-        this.timingSettingData()
+      if (localStorage.userClass === '2') {
+        this.dialogTitle = val
+        this.centerDialogVisible = true
+        if (val === '定时报表设置') {
+          this.timingSettingData()
+        }
+      } else {
+        this.$message.warning('您没有此项权限！')
       }
     },
     // 关闭弹窗

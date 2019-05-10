@@ -7,23 +7,23 @@
       </div>
       <div v-if="tableData.length" class="tableShow">
         <section class="table-con" v-for="(i, j) in tableList" :key="j">
-          <h1>{{ i }}</h1>
-          <div class="reportList">
-            <ul>
-              <li>录入时间</li>
-              <li v-for="(time_list, index) in tableData[j].time_list" :key="index">{{ time_list }}</li>
+          <h1 style="text-align: center; font-size: 1.5rem;">{{ i }}</h1>
+          <div class="reportList" style="display: flex; justify-content: space-between; border-left: 1px solid #3a537e; border-top: 1px solid #3a537e;">
+            <ul style="flex: 1; padding: 0; margin: 0;">
+              <li style="list-style: none; border-bottom: 1px solid #3a537e; border-right: 1px solid #3a537e; text-align: center; padding: 5px 0;">录入时间</li>
+              <li style="list-style: none; border-bottom: 1px solid #3a537e; border-right: 1px solid #3a537e; text-align: center; padding: 5px 0;" v-for="(time_list, index) in tableData[j].time_list" :key="index">{{ time_list }}</li>
             </ul>
-            <ul>
-              <li>威胁IP</li>
-              <li v-for="(host_ip_list, index) in tableData[j].host_ip_list" :key="index">{{ host_ip_list }}</li>
+            <ul style="flex: 1; padding: 0; margin: 0;">
+              <li style="list-style: none; border-bottom: 1px solid #3a537e; border-right: 1px solid #3a537e; text-align: center; padding: 5px 0;">威胁IP</li>
+              <li style="list-style: none; border-bottom: 1px solid #3a537e; border-right: 1px solid #3a537e; text-align: center; padding: 5px 0;" v-for="(host_ip_list, index) in tableData[j].host_ip_list" :key="index">{{ host_ip_list }}</li>
             </ul>
-            <ul>
-              <li>病毒事件</li>
-              <li v-for="(virus_list, index) in tableData[j].virus_list" :key="index">{{ virus_list }}</li>
+            <ul style="flex: 1; padding: 0; margin: 0;">
+              <li style="list-style: none; border-bottom: 1px solid #3a537e; border-right: 1px solid #3a537e; text-align: center; padding: 5px 0;">病毒事件</li>
+              <li style="list-style: none; border-bottom: 1px solid #3a537e; border-right: 1px solid #3a537e; text-align: center; padding: 5px 0;" v-for="(virus_list, index) in tableData[j].virus_list" :key="index">{{ virus_list }}</li>
             </ul>
-            <ul v-if="tableData.receiver_list">
-              <li>接收者</li>
-              <li v-for="(receiver_list, index) in tableData[j].receiver_list" :key="index">{{ receiver_list }}</li>
+            <ul v-if="tableData.receiver_list" style="flex: 1; padding: 0; margin: 0;">
+              <li style="list-style: none; border-bottom: 1px solid #3a537e; border-right: 1px solid #3a537e; text-align: center; padding: 5px 0;">接收者</li>
+              <li style="list-style: none; border-bottom: 1px solid #3a537e; border-right: 1px solid #3a537e; text-align: center; padding: 5px 0;" v-for="(receiver_list, index) in tableData[j].receiver_list" :key="index">{{ receiver_list }}</li>
             </ul>
           </div>
         </section>
@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     init () {
-      this.$api.get('import_forms', {id: this.$route.query.id}).then(res => {
+      this.$api.get('import_forms_read', {id: this.$route.query.id}).then(res => {
         if (res.status === 200) {
           for (let i in res.data) {
             if (res.data[i]) {
@@ -82,30 +82,30 @@ export default {
               verticalHeader = verticalHeader.concat(Object.keys(r[i]))
             }
           })
-          verticalHeader = Array.from(new Set(verticalHeader)) // 去重
+          verticalHeader = Array.from(new Set(verticalHeader)).sort() // 去重并排序
 
           // 遍历数据
           let listArr = [
-            {
-              en: 'time_list',
-              cn: '录入时间'
-            },
             {
               en: 'host_ip_list',
               cn: '威胁IP'
             },
             {
-              en: 'virus_list',
-              cn: '病毒事件'
-            },
-            {
               en: 'receiver_list',
               cn: '接收者'
+            },
+            {
+              en: 'time_list',
+              cn: '录入时间'
+            },
+            {
+              en: 'virus_list',
+              cn: '病毒事件'
             }
           ]
           verticalHeader.forEach((i, j) => {
             let dataArrItem = []
-            if (verticalHeader[j] === listArr[j].en) {
+            if (i === listArr[j].en) {
               dataArrItem.push(listArr[j].cn) // 每行插入纵向表头
             }
             for (let m in r) {
@@ -123,10 +123,7 @@ export default {
       })
     },
     downloadHtml () {
-      document.querySelector('.header').style.display = 'none'
-      document.querySelector('.adminSidebar-con').style.display = 'none'
-      document.querySelector('.btn-con').style.display = 'none'
-      var content = document.querySelector('html').outerHTML
+      var content = document.querySelector('.tableShow').outerHTML
       // 创建隐藏的可下载链接
       var eleLink = document.createElement('a')
       eleLink.style.display = 'none'
@@ -139,9 +136,6 @@ export default {
       eleLink.click()
       // 移除
       document.body.removeChild(eleLink)
-      document.querySelector('.header').style.display = 'flex'
-      document.querySelector('.adminSidebar-con').style.display = 'block'
-      document.querySelector('.btn-con').style.display = 'block'
     }
   },
   mounted () {
@@ -156,30 +150,6 @@ export default {
       margin: 1rem auto;
       .btn-con {
         text-align: right;
-      }
-      h1 {
-        text-align: center;
-        font-size: 1.5rem;
-      }
-      .reportList {
-        display: flex;
-        justify-content: space-between;
-        ul {
-          flex: 1;
-          border: 1px solid #3a537e;
-          border-right: none;
-          li {
-            border-bottom: 1px solid #3a537e;
-            text-align: center;
-            padding: 5px 0;
-          }
-          li:last-of-type {
-            border-bottom: none;
-          }
-        }
-        ul:last-of-type {
-          border-right: 1px solid #3a537e;
-        }
       }
       .noData {
         text-align: center;

@@ -11,7 +11,7 @@
         <el-button @click="stateChange()">{{whiteListBtn === '0' ? '开启' : '关闭'}}白名单<i class="el-icon-loading" v-if="loading" style="margin-left: 2px;"></i></el-button>
       </div>
       <div>
-        <el-button @click="dialogWhiteList = !dialogWhiteList" class="resetPassword" :disabled="whiteListBtn === '0'"><span>添加白名单</span></el-button>
+        <el-button @click="addWhiteListFormShow()" class="resetPassword" :disabled="whiteListBtn === '0'"><span>添加白名单</span></el-button>
       </div>
       <el-dialog title="添加白名单" :visible.sync="dialogWhiteList" style="text-align: center;">
         <div class="addDiv">
@@ -119,25 +119,36 @@ export default {
     }
   },
   methods: {
+    addWhiteListFormShow () {
+      if (localStorage.userClass === '2') {
+        this.dialogWhiteList = !this.dialogWhiteList
+      } else {
+        this.$message.warning('您没有此项权限！')
+      }
+    },
     stateChange () {
-      this.$confirm(this.whiteListBtn === '0' ? (this.whiteList.length === 0 ? '此次操作将开启白名单功能，并会把本次访问IP加入白名单，是否继续' : '此次操作将开启白名单功能，若本次访问IP不在白名单内，将无法继续访问系统，是否继续') : '此次操作将关闭白名单功能，所有IP 均可访问系统，是否继续', '提示').then((res) => {
-        this.loading = true
-        this.$api.post('white_ip_switch', {
-          username: localStorage.userName,
-          switch_status: this.whiteListBtn === '0' ? '1' : '0'
-        }).then((res) => {
-          if (res.status === 200) {
-            this.$message({
-              message: res.message,
-              type: 'success'
-            })
-          } else {
-            this.$message.error(res.message)
-          }
-          this.whiteListState()
-        })
-        this.loading = false
-      }).catch(() => {})
+      if (localStorage.userClass === '2') {
+        this.$confirm(this.whiteListBtn === '0' ? (this.whiteList.length === 0 ? '此次操作将开启白名单功能，并会把本次访问IP加入白名单，是否继续' : '此次操作将开启白名单功能，若本次访问IP不在白名单内，将无法继续访问系统，是否继续') : '此次操作将关闭白名单功能，所有IP 均可访问系统，是否继续', '提示').then((res) => {
+          this.loading = true
+          this.$api.post('white_ip_switch', {
+            username: localStorage.userName,
+            switch_status: this.whiteListBtn === '0' ? '1' : '0'
+          }).then((res) => {
+            if (res.status === 200) {
+              this.$message({
+                message: res.message,
+                type: 'success'
+              })
+            } else {
+              this.$message.error(res.message)
+            }
+            this.whiteListState()
+          })
+          this.loading = false
+        }).catch(() => {})
+      } else {
+        this.$message.warning('您没有此项权限！')
+      }
     },
     submit () {
       this.$api.get('add_white_ip', {
@@ -163,16 +174,20 @@ export default {
       })
     },
     ipDelete (val) {
-      this.$confirm('此操作将删除此ip，是否继续', '提示').then((res) => {
-        this.$api.get('delete_white_ip', {ip: val}).then((res) => {
-          if (res && res.status === 200) {
-            this.$message.success(res.message)
-          } else {
-            this.$message.error(res.message)
-          }
-          this.init()
-        })
-      }).catch(() => {})
+      if (localStorage.userClass === '2') {
+        this.$confirm('此操作将删除此ip，是否继续', '提示').then((res) => {
+          this.$api.get('delete_white_ip', {ip: val}).then((res) => {
+            if (res && res.status === 200) {
+              this.$message.success(res.message)
+            } else {
+              this.$message.error(res.message)
+            }
+            this.init()
+          })
+        }).catch(() => {})
+      } else {
+        this.$message.warning('您没有此项权限！')
+      }
     },
     init (val) {
       this.$api.get('white_ip', {page: val || 1}).then((res) => {

@@ -142,21 +142,7 @@ export default {
   },
   methods: {
     init () {
-      this.$api.get('system_storage_info').then(res => {
-        if (res.status === 200) {
-          this.StorageState = res.ret[0]
-        }
-      })
-      this.$api.get('system_resource_status').then(res => {
-        this.NodeList = res.storage_info.data.storages_info
-        this.NodeState = res.storage_info.data.storage_total_info
-        if (this.dataFailedCount === 0 && res.storage_info.status === 400) {
-          this.$message.error(res.storage_info.message)
-          this.dataFailedCount = 1
-        }
-        this.sandboxList = res.sandboxes_info.data.sandboxes_info[1].machine_list
-        this.is_unFinished = false
-      })
+      // 系统运行状态
       this.$api.get('system_basic_status').then(webkitDep => {
         this.RunState = webkitDep.data
         let timeArr = webkitDep.data['create_time']
@@ -173,12 +159,30 @@ export default {
         }
         this.is_unFinished = false
       })
+      // 存储状态
+      this.$api.get('system_storage_info').then(res => {
+        if (res.status === 200) {
+          this.StorageState = res.ret[0]
+        }
+      })
+      // web系统折线图
       this.$api.get('data_line_parameter', {hardware: 1}).then((res) => {
         if (res.status === 200) {
           for (let i in res.data) {
             this.getWebLineData(i)
           }
         }
+      })
+      // 检测系统 沙箱
+      this.$api.get('system_resource_status').then(res => {
+        this.NodeList = res.storage_info.data.storages_info
+        this.NodeState = res.storage_info.data.storage_total_info
+        if (this.dataFailedCount === 0 && res.storage_info.status === 400) {
+          this.$message.error(res.storage_info.message)
+          this.dataFailedCount = 1
+        }
+        this.sandboxList = res.sandboxes_info.data.sandboxes_info[1].machine_list
+        this.is_unFinished = false
       })
     },
     getWebLineData (val) {

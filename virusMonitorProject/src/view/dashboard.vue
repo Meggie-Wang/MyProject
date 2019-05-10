@@ -141,7 +141,7 @@
       <!--右边-->
       <div class="right-box">
         <p>
-          <span v-if="language === 'zh'">数戎-软件基因全球网络安全数据综合服务平台</span>
+          <span v-if="language === 'zh'">{{$projectCnName}}</span>
           <img v-else src="../../static/img/enLogo.png">
         </p>
         <div class="more" @click="sanjiao">

@@ -97,45 +97,52 @@ export default {
       })
     },
     webcardSetup (item, index) {
-      this.$confirm('此操作将重启系统, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.upload(item, index)
-        console.log(index)
-      }).catch(() => {})
+      if (localStorage.userClass === '2') {
+        this.$confirm('此操作将重启系统, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.upload(item, index)
+        }).catch(() => {})
+      } else {
+        this.$message.warning('您没有此项权限！')
+      }
     },
     // 提交DNS
     DNSsetup () {
-      let DNSarr = []
-      if (this.DNS1) {
-        DNSarr.push(this.DNS1)
+      if (localStorage.userClass === '2') {
+        let DNSarr = []
+        if (this.DNS1) {
+          DNSarr.push(this.DNS1)
+        }
+        if (this.DNS2) {
+          DNSarr.push(this.DNS2)
+        }
+        if (this.DNS3) {
+          DNSarr.push(this.DNS3)
+        }
+        this.$confirm('此操作将提交设置, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$api.post('machine_dns', {
+            dns_servers: DNSarr
+          }).then(res => {
+            if (res.status === 200) {
+              this.$message({
+                message: res.message,
+                type: 'success'
+              })
+            } else {
+              this.$message.error(res.message)
+            }
+          })
+        }).catch(() => {})
+      } else {
+        this.$message.warning('您没有此项权限！')
       }
-      if (this.DNS2) {
-        DNSarr.push(this.DNS2)
-      }
-      if (this.DNS3) {
-        DNSarr.push(this.DNS3)
-      }
-      this.$confirm('此操作将提交设置, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.$api.post('machine_dns', {
-          dns_servers: DNSarr
-        }).then(res => {
-          if (res.status === 200) {
-            this.$message({
-              message: res.message,
-              type: 'success'
-            })
-          } else {
-            this.$message.error(res.message)
-          }
-        })
-      }).catch(() => {})
     }
   },
   mounted () {

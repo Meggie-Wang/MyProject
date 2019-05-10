@@ -64,26 +64,30 @@ export default {
       })
     },
     saveBro () {
-      let obj = {
-        bro_setting: JSON.stringify({
-          bro_protocol: this.protocolSelect.join(','),
-          bro_detect: '',
-          bro_time: this.start_time + '-' + this.end_time,
-          bro_storage: this.savePosition + 'M',
-          warning_rate: this.saveRatio + '%'
-        })
-      }
-      this.$api.post('bro_setting', obj).then((res) => {
-        if (res.status === 200) {
-          this.$message({
-            message: res.message,
-            type: 'success'
+      if (localStorage.userClass === '2') {
+        let obj = {
+          bro_setting: JSON.stringify({
+            bro_protocol: this.protocolSelect.join(','),
+            bro_detect: '',
+            bro_time: this.start_time + '-' + this.end_time,
+            bro_storage: this.savePosition + 'M',
+            warning_rate: this.saveRatio + '%'
           })
-          this.bro_setting()
-        } else {
-          this.$message.error(res.message)
         }
-      })
+        this.$api.post('bro_setting', obj).then((res) => {
+          if (res.status === 200) {
+            this.$message({
+              message: res.message,
+              type: 'success'
+            })
+            this.bro_setting()
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      } else {
+        this.$message.warning('您没有此项权限！')
+      }
     }
     // inputCheck (val, minLimit, maxLimit) {
     //   this[val] = Number(this[val].toString().replace(/\D/g, ''))

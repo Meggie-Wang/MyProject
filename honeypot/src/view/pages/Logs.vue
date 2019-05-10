@@ -73,17 +73,17 @@ export default {
     }
   },
   mounted () {
-    this.urlChange(this.$route.query.page || 1, this.$route.query.search)
-    this.getData((this.$route.query.page || 1), this.$route.query.search)
+    this.urlChange(this.$route.query.page || 1, this.$route.query.search, this.$route.query.sort)
+    this.getData(this.$route.query.page || 1, this.$route.query.search, this.$route.query.sort)
     this.searchWord = this.$route.query.search
   },
   methods: {
     // 获取数据
-    getData (from, search = null, sort = 'desc') {
+    getData (from, search = null, sort) {
       Loading.service({
         background: 'rgba(0, 0, 0, 0)'
       })
-      api.get('log', {from: Number(from), search: search, sort: sort}).then(resData => {
+      api.get('log', {from: Number(from), search: search, sort: sort || 'desc'}).then(resData => {
         Loading.service().close()
         this.logShow = true
         this.total = 0
@@ -106,38 +106,19 @@ export default {
         Loading.service().close()
       })
     },
-    // 搜索内容高亮显示
-    search_do (content, keyWord) {
-      var keyWordArr = keyWord.replace(/[\s]+/g, ' ').split(' ')
-      var re
-      for (var n = 0; n < keyWordArr.length; n++) {
-        re = new RegExp('' + keyWordArr[n] + '', 'gmi')
-        if (content) {
-          let contents = content.replace(re, '<span style="color:#fff;background-color:#288770">' + keyWordArr[n] + '</span>')
-          return contents
-        }
-      }
-    },
-    // 搜索
-    doSearch () {
-      if (this.searchInfo !== '') {
-        this.urlChange(1, this.searchInfo)
-        this.getData(1, this.searchInfo)
-        this.searchWord = this.searchInfo
-        this.searchInfo = ''
-      } else {
-        this.searchWord = this.$t('messages.logs.logSearchTip')
-        setTimeout(() => {
-          this.searchWord = ''
-        }, 3000)
-      }
-    },
     // 改变url
-    urlChange (page, search) {
+    urlChange (page, search, sort) {
       if (!search) {
         search = ''
       }
-      location.href = location.href.split('?')[0] + '?page=' + page + '&search=' + search
+      this.$router.push({
+        path: '/Logs',
+        query: {
+          page: page,
+          search: search,
+          sort: sort || 'desc'
+        }
+      })
       this.currentPage = Number(page)
     },
     // 展开折叠
@@ -154,27 +135,53 @@ export default {
     },
     // 分页
     handleCurrentChange (val) {
-      this.urlChange(val, this.$route.query.search)
-      this.getData(val, this.$route.query.search)
+      this.urlChange(val, this.$route.query.search, this.$route.query.sort)
+      this.getData(val, this.$route.query.search, this.$route.query.sort)
     },
     // 排序
     sort (e) {
       if (e.target.parentNode.firstChild.getAttribute('class') === 'green') {
         // 正序
         this.isSelect = false
-        this.urlChange(1, this.$route.query.search)
+        this.urlChange(1, this.$route.query.search, 'desc')
         this.getData(1, this.$route.query.search, 'desc')
       } else {
         // 倒序
         this.isSelect = true
-        this.urlChange(1, this.$route.query.search)
+        this.urlChange(1, this.$route.query.search, 'asc')
         this.getData(1, this.$route.query.search, 'asc')
+      }
+    },
+    // 搜索内容高亮显示
+    search_do (content, keyWord) {
+      var keyWordArr = keyWord.replace(/[\s]+/g, ' ').split(' ')
+      var re
+      for (var n = 0; n < keyWordArr.length; n++) {
+        re = new RegExp('' + keyWordArr[n] + '', 'gmi')
+        if (content) {
+          let contents = content.replace(re, '<span style="color:#fff;background-color:#288770">' + keyWordArr[n] + '</span>')
+          return contents
+        }
+      }
+    },
+    // 搜索
+    doSearch () {
+      if (this.searchInfo !== '') {
+        this.urlChange(1, this.searchInfo, this.$route.query.sort)
+        this.getData(1, this.searchInfo, this.$route.query.sort)
+        this.searchWord = this.searchInfo
+        this.searchInfo = ''
+      } else {
+        this.searchWord = this.$t('messages.logs.logSearchTip')
+        setTimeout(() => {
+          this.searchWord = ''
+        }, 3000)
       }
     },
     // 重新搜索
     reSearch () {
-      this.urlChange(1, '')
-      this.getData(1)
+      this.urlChange(1, '', this.$route.query.sort)
+      this.getData(1, '', this.$route.query.sort)
       this.searchWord = ''
     }
   }

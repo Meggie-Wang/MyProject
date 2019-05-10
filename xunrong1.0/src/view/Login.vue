@@ -16,11 +16,11 @@
                 id="user"
                 type="text"
                 :placeholder="$t('messages.register.enterUserName')"
-                maxlength="12"
+                maxlength="16"
                 autocomplete="off"
                 v-model="userName"
                 @keyup.enter="submit"
-                @focus="error = ''">
+                @focus="error = ''"><!-- 后端要求限制用户名长度 -->
             </td>
           </tr>
           <tr>
@@ -283,11 +283,11 @@ export default {
   },
   mounted () {
     api.setCookie('rememberPassword', this.rememberPassword)
-    if (localStorage.locale === 'en') {
-      document.querySelector('.changeLanguage').classList.add('active')
-    } else if (localStorage.locale === 'zh') {
-      document.querySelector('.changeLanguage').classList.remove('active')
-    }
+    // if (localStorage.locale === 'en') {
+    //   document.querySelector('.changeLanguage').classList.add('active')
+    // } else if (localStorage.locale === 'zh') {
+    //   document.querySelector('.changeLanguage').classList.remove('active')
+    // }
   },
   beforeRouteEnter (to, from, next) {
     next(vm => {

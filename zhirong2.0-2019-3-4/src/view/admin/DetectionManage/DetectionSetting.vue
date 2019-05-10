@@ -181,29 +181,33 @@ export default {
       })
     },
     saveDetect () {
-      let obj = {
-        detect_setting: JSON.stringify({
-          detect_method: this.detect_method.join(','),
-          unzip_level: this.decompressionLevel,
-          warning_level: '',
-          detect_type: JSON.stringify(this.detectFileTypeCheckList.join(',')),
-          // storage_level: this.saveLevel,
-          // storage_time: this.storeTime,
-          log_time: 6,
-          type_list: ['PE', 'ELF', 'OFFICE', 'ZIP', 'TEXT']
-        })
-      }
-      this.$api.post('detect_setting', obj).then((res) => {
-        if (res.status === 200) {
-          this.$message({
-            message: res.message,
-            type: 'success'
+      if (localStorage.userClass === '2') {
+        let obj = {
+          detect_setting: JSON.stringify({
+            detect_method: this.detect_method.join(','),
+            unzip_level: this.decompressionLevel,
+            warning_level: '',
+            detect_type: JSON.stringify(this.detectFileTypeCheckList.join(',')),
+            // storage_level: this.saveLevel,
+            // storage_time: this.storeTime,
+            log_time: 6,
+            type_list: ['PE', 'ELF', 'OFFICE', 'ZIP', 'TEXT']
           })
-          this.detect_setting()
-        } else {
-          this.$message.error(res.message)
         }
-      })
+        this.$api.post('detect_setting', obj).then((res) => {
+          if (res.status === 200) {
+            this.$message({
+              message: res.message,
+              type: 'success'
+            })
+            this.detect_setting()
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      } else {
+        this.$message.warning('您没有此项权限！')
+      }
     },
     inputCheck (val, minLimit, maxLimit) {
       this[val] = Number(this[val].toString().replace(/\D/g, ''))

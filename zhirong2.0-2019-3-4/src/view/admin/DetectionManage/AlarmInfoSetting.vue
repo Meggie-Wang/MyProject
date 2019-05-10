@@ -60,7 +60,7 @@
             </div>
           </div>
           <div class="report-btn">
-            <el-button @click="SetUpTest ()" :disabled="checkOrNocheck === ''">
+            <el-button @click="SetUpTest()" :disabled="checkOrNocheck === ''">
               <i class="el-icon-loading" v-if="loading"></i>测试设置</el-button>
             <el-button @click="save">保存</el-button>
           </div>
@@ -248,64 +248,68 @@ export default {
       遍历接收邮箱数组对数组元素做格式验证，正确传false，错误传true，将得出的布尔值按对应的index传到数组checkemailaddress里，v-if遍历checkemailaddress拿到对应index的布尔值控制错误提示的显隐。
     */
     save () {
-      // 是否使用电子邮件发送
-      var a = ''
-      if (this.checkOrNocheck === '') {
-        a = 'no'
-      } else {
-        a = 'yes'
-      }
-      // 账户密码邮箱验证
-      var accountCheck = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/ // /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/
-      var pwdCheck = /^[A-Za-z0-9_\u4e00-\u9fa5]+$/
-      // 发送账户判断
-      if (!accountCheck.test(this.emailSender)) {
-        this.SendCheck = true
-      } else {
-        this.SendCheck = false
-      }
-
-      // 密码判断
-      if (!pwdCheck.test(this.emailPassword) && !this.emailPassword) {
-        this.PasswordCheck = true
-      } else {
-        this.PasswordCheck = false
-      }
-
-      // 接收邮箱判断
-      this.checkEmailAddress = []
-      for (var i = 0; i < this.emailAddressee.length; i++) {
-        // let haha = !accountCheck.test(this.emailAddressee[i]) // true, 错了加入提示
-        if (!accountCheck.test(this.emailAddressee[i])) {
-          // 加入提示错了
-          this.checkEmailAddress.push(true)
-          this.checkEmailboolean = false
+      if (localStorage.userClass === '2') {
+        // 是否使用电子邮件发送
+        var a = ''
+        if (this.checkOrNocheck === '') {
+          a = 'no'
         } else {
-          // 证确
-          this.checkEmailAddress.push(false)
+          a = 'yes'
         }
-      }
-      if (accountCheck.test(this.emailSender) && pwdCheck.test(this.emailPassword) && this.checkEmailboolean) {
-        this.$api.post('report_setting', {
-          user_id: localStorage.session_id,
-          if_use: a,
-          smtp_server: this.smtpServer,
-          smtp_portnum: this.smtpPortnum,
-          smtp_encrypt: this.smtpEncrypt,
-          email_sender: this.emailSender,
-          email_password: this.emailPassword,
-          email_addressee: [this.emailAddressee],
-          send_timing: this.sendTiming
-        }).then(response => {
-          if (response.status === 200) {
-            this.$message({
-              message: response.message,
-              type: 'success'
-            })
+        // 账户密码邮箱验证
+        var accountCheck = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/ // /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/
+        var pwdCheck = /^[A-Za-z0-9_\u4e00-\u9fa5]+$/
+        // 发送账户判断
+        if (!accountCheck.test(this.emailSender)) {
+          this.SendCheck = true
+        } else {
+          this.SendCheck = false
+        }
+
+        // 密码判断
+        if (!pwdCheck.test(this.emailPassword) && !this.emailPassword) {
+          this.PasswordCheck = true
+        } else {
+          this.PasswordCheck = false
+        }
+
+        // 接收邮箱判断
+        this.checkEmailAddress = []
+        for (var i = 0; i < this.emailAddressee.length; i++) {
+          // let haha = !accountCheck.test(this.emailAddressee[i]) // true, 错了加入提示
+          if (!accountCheck.test(this.emailAddressee[i])) {
+            // 加入提示错了
+            this.checkEmailAddress.push(true)
+            this.checkEmailboolean = false
           } else {
-            this.$message.error(response.message)
+            // 证确
+            this.checkEmailAddress.push(false)
           }
-        })
+        }
+        if (accountCheck.test(this.emailSender) && pwdCheck.test(this.emailPassword) && this.checkEmailboolean) {
+          this.$api.post('report_setting', {
+            user_id: localStorage.session_id,
+            if_use: a,
+            smtp_server: this.smtpServer,
+            smtp_portnum: this.smtpPortnum,
+            smtp_encrypt: this.smtpEncrypt,
+            email_sender: this.emailSender,
+            email_password: this.emailPassword,
+            email_addressee: [this.emailAddressee],
+            send_timing: this.sendTiming
+          }).then(response => {
+            if (response.status === 200) {
+              this.$message({
+                message: response.message,
+                type: 'success'
+              })
+            } else {
+              this.$message.error(response.message)
+            }
+          })
+        }
+      } else {
+        this.$message.warning('您没有此项权限！')
       }
     },
     selectGet (val) {
@@ -317,25 +321,29 @@ export default {
     },
     // 测试设置
     SetUpTest () {
-      this.loading = true
-      this.$api.post('report_test', {
-        smtp_server: this.smtpServer,
-        smtp_portnum: this.smtpPortnum,
-        smtp_encrypt: this.selectvalue,
-        email_sender: this.emailSender,
-        email_password: this.emailPassword,
-        email_addressee: this.emailAddressee
-      }).then(res => {
-        this.loading = false
-        if (res.status === 200) {
-          this.$message({
-            message: res.message,
-            type: 'success'
-          })
-        } else {
-          this.$message.error(res.message)
-        }
-      })
+      if (localStorage.userClass === '2') {
+        this.loading = true
+        this.$api.post('report_test', {
+          smtp_server: this.smtpServer,
+          smtp_portnum: this.smtpPortnum,
+          smtp_encrypt: this.selectvalue,
+          email_sender: this.emailSender,
+          email_password: this.emailPassword,
+          email_addressee: this.emailAddressee
+        }).then(res => {
+          this.loading = false
+          if (res.status === 200) {
+            this.$message({
+              message: res.message,
+              type: 'success'
+            })
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      } else {
+        this.$message.warning('您没有此项权限！')
+      }
     },
     // 获取报表默认数据
     init () {
@@ -371,20 +379,24 @@ export default {
       })
     },
     SysLogSave () {
-      this.$api.post('syslog_config', {
-        port: this.portInput,
-        facility: this.localVal,
-        host: this.ipInput,
-        level: this.levelVal,
-        if_use: Number(this.if_use)
-      }).then((res) => {
-        if (res && res.status === 200) {
-          this.$message.success('设置保存成功')
-        } else {
-          this.$message.warning(res.msg)
-        }
-        this.SysLog()
-      })
+      if (localStorage.userClass === '2') {
+        this.$api.post('syslog_config', {
+          port: this.portInput,
+          facility: this.localVal,
+          host: this.ipInput,
+          level: this.levelVal,
+          if_use: Number(this.if_use)
+        }).then((res) => {
+          if (res && res.status === 200) {
+            this.$message.success('设置保存成功')
+          } else {
+            this.$message.warning(res.msg)
+          }
+          this.SysLog()
+        })
+      } else {
+        this.$message.warning('您没有此项权限！')
+      }
     }
   },
   mounted () {
@@ -580,6 +592,6 @@ export default {
     box-shadow: none;
   }
   .SysLog .el-select .el-input input {
-    max-width: 198px;
+    width: 198px;
   }
 </style>

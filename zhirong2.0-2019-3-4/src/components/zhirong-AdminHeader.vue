@@ -20,12 +20,20 @@ export default {
   props: ['routers'],
   watch: {
     routers (val) {
-      this.currentPath = this.$route.path
+      if (this.$route.path === '/ReportInfo') {
+        this.currentPath = '/ReportSetting'
+      } else {
+        this.currentPath = this.$route.path
+      }
     }
   },
   methods: {
     changeTab (path, index) {
-      this.$router.push(path)
+      let q = this.$common.inheritObj(this.$route.query)
+      this.$router.push({
+        path: path,
+        query: q
+      })
       this.currentPath = path
     }
   },

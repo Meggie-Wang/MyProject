@@ -11,13 +11,13 @@
         :unique-opened=true
         :default-active="$route.path"
         @select="select">
-        <el-menu-item index="/DeviceStatus" :class="currentRoute === '0' ? 'is-active' : ''">
+        <el-menu-item index="/DeviceStatus" :class="currentRoute === '0' ? 'Active' : ''">
           <template slot="title">
             <i class="el-icon-one"></i>
             <span>设备管理</span>
           </template>
         </el-menu-item>
-        <el-menu-item index="/TrafficSetting" :class="currentRoute === '1' ? 'is-active' : ''">
+        <el-menu-item index="/TrafficSetting" :class="currentRoute === '1' ? 'Active' : ''">
           <template slot="title">
             <i class="el-icon-two"></i>
             <span>检测管理</span>
@@ -125,6 +125,9 @@ export default {
           }
         ]
         this.currentRoute = '1'
+      } else if (to.path === '/ReportInfo') {
+        this.routers = []
+        this.currentRoute = '1'
       } else {
         this.routers = []
         this.currentRoute = ''
@@ -132,9 +135,6 @@ export default {
     }
   },
   methods: {
-    home () {
-      this.currentRoute = '0'
-    },
     select (val) {
       if (val === '/DeviceStatus' || val === '/NetworkConfig' || val === '/WhiteList' || val === '/ResourceClear' || val === '/SystemSetting') {
         this.routers = [
@@ -179,6 +179,9 @@ export default {
             path: '/AlarmInfoSetting'
           }
         ]
+        this.currentRoute = '1'
+      } else if (val === '/ReportInfo') {
+        this.routers = []
         this.currentRoute = '1'
       } else {
         this.routers = []
@@ -267,12 +270,15 @@ export default {
   .adminSidebar .el-menu-item.is-active span {
     font-weight: bold;
   }
+  .adminSidebar .el-menu-item.Active {
+    background: #f1f6ff!important;
+  }
   .el-menu-item:first-of-type.Active i, .el-menu-item:first-of-type:hover i { background-image: url('../../assets/img/adminDeviceA.png'); }
   .el-menu-item:nth-of-type(2).Active i, .el-menu-item:nth-of-type(2):hover i { background-image: url('../../assets/img/adminTrafficA.png'); }
   .el-menu-item:last-of-type.Active i, .el-menu-item:last-of-type:hover i { background-image: url('../../assets/img/adminUserA.png'); }
   .adminSidebar .el-menu-item.Active span {
     font-weight: bold;
-    color: $textColor;
+    color: $textColor!important;
   }
   .auditClass .el-icon-UserLog { background-image: url('../../assets/img/Log.png'); }
   .auditClass .el-icon-EventLog { background-image: url('../../assets/img/EventLog.png'); }

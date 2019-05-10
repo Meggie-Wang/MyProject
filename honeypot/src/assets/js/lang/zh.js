@@ -1,3 +1,4 @@
+import Vue from 'vue'
 export const messages = {
   register: {
     'enterUserName': '请输入用户名',
@@ -138,7 +139,7 @@ export const messages = {
     'status': '状态',
     'days': '天',
     stateNames: ['攻击事件总量', '活跃探针数', '存储量', '监控时间'],
-    'introduceOne': '分布式攻击行为捕获与通报系统',
+    'introduceOne': Vue.prototype.$projectCnName,
     'introduceTwo': '是上海戎磐网络科技有限公司独立开发的一款恶意网络攻击行为及样本捕获系统。系统基于分布式架构，构建协议攻击、Web攻击、会话攻击、口令攻击等多类型蜜罐，基于容器实现轻量化虚拟集中管理，凭借多年环境模拟、行为监控技术及经验积累能够为软件基因、威胁情报、攻击溯源和态势感知等需求提供及时、真实、详细的数据支撑。',
     websiteIntroductions: [
       '支持多种类型蜜罐。包括协议攻击、工控网络攻击、Web攻击、会话攻击、口令攻击等多类型蜜罐，覆盖不同行业、领域。',

@@ -108,13 +108,15 @@ const apiArr = {
   'bro_setting': '/api/bro_setting/', // 检测管理流量设置旁路检测
   'add_type': '/api/add_type/', // 检测管理检测设置样本检测策略增加检测文件类型
   'forms_info': 'api/forms_info/', // 检测管理报表设置报表记录
+  'import_forms_read': 'api/import_forms_read/', // 检测管理报表设置报表查看
   'import_forms': 'api/import_forms/', // 检测管理报表设置报表导出
   'report_setting': 'api/report_setting/', // 检测管理告警信息设置邮件设置
   'report_test': 'api/report_test/', // 检测管理告警信息设置邮件测试设置
   'syslog_config': 'api/syslog_config/', // 检测管理告警信息设置syslog配置
   'generate_forms': 'api/generate_forms/', // 即时报表
   'forms_setting': 'api/forms_setting/', // 定时报表
-  're_dynamic_detect': 'api/re_dynamic_detect/' // 样本重新检测9800
+  're_dynamic_detect': 'api/re_dynamic_detect/', // 样本重新检测9800
+  'gene_analysis': 'api/gene_analysis/' // 基因综合分析
 }
 
 // 这段代码重复，原因：apiArr, apiPath需要传入'@/api/api'中

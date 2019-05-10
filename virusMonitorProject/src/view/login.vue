@@ -150,16 +150,20 @@
             </tr>
           </table>
         </div>
+
         <span class="isShow" v-if='isLogin'>{{ $t('messages.login.pleaseLogin') }}</span>
+
         <button @click='submit'>
           <span v-if="!login">
             <span>{{ $t('messages.login.login') }}</span>
           </span>
           <span v-if="login"><i class="el-icon-loading"></i>{{ $t('messages.login.logged') }}</span>
         </button>
+
         <div class="guest">
           <span @click="guestLogin">{{ $t('messages.login.guest') }}</span>
         </div>
+
         <div class="end">
           <span>
             <label>
