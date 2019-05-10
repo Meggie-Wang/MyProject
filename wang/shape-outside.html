@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style>
+	* {
+		box-sizing: border-box;
+	}
+	.wraper {
+		display: flex;
+		flex-wrap: wrap;
+	}
+	.item {
+		flex-basis: 500px;
+		flex-grow: 0;
+  		flex-shrink: 0;
+	}
+	img {
+		float: left;
+		width: 200px;
+		height: 200px;
+		/*padding: 20px;*/
+		/*margin: 20px;*/
+		/*border-radius: 50%;*/
+		/*shape-outside: linear-gradient(45deg, rgba(255, 255, 255, 0) 150px, red 150px);*/
+		shape-outside: circle();
+	}
+	.hoverBox {
+		transform: translateY(0);
+		transition: transform .5s;
+		width: 20px;
+		height: 20px;
+		background: red;
+	}
+	.hoverBox:hover {
+		transform: translateY(-10px);
+	}
+</style>
+<body>
+	<div class="wraper">
+		<div class="item">
+			<img src="http://www.daqianduan.com/wp-content/uploads/2018/11/shapes.jpg" alt="">
+			<p>啦啦啦啦啦</p> 
+			<p>啦啦啦啦啦</p>
+			<p>啦啦啦啦啦</p>
+			<p>啦啦啦啦啦</p>
+			<p>啦啦啦啦啦</p>
+		</div>
+	</div>
+	<div class="hoverBox"></div>
+</body>
+</html>
