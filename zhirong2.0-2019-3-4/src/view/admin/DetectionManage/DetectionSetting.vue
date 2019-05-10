@@ -35,7 +35,7 @@
           <span>解压级别</span>
           <input
             v-model="decompressionLevel"
-            :disabled="isCheckZIP === '0' || userClass !== '2'"
+            :disabled="isCheckZIP === '0'"
             @blur="inputCheck('decompressionLevel', 1, 10)">级（级别范围：1-10）
         </div>
       </div>

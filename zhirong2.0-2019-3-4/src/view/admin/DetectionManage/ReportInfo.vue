@@ -59,83 +59,91 @@ export default {
       })
     },
     downloadExcel () {
-      let headerName = []
-      let verticalHeader = []
-      let dataArr = []
+      if (localStorage.userClass !== '2') {
+        this.$message.warning('您没有此项权限！')
+      } else {
+        let headerName = []
+        let verticalHeader = []
+        let dataArr = []
 
-      this.$api.get('import_forms', {
-        id: this.$route.query.id
-      }).then(res => {
-        if (res.status === 200) {
-          let r = res.data
-          // 对象的第一层key作为excel的横向表头
-          // 第二层的key作为纵向表头
-          // 对应的第三层数据作为表格的数据填充
+        this.$api.get('import_forms', {
+          id: this.$route.query.id
+        }).then(res => {
+          if (res.status === 200) {
+            let r = res.data
+            // 对象的第一层key作为excel的横向表头
+            // 第二层的key作为纵向表头
+            // 对应的第三层数据作为表格的数据填充
 
-          // 横向表头
-          headerName = Object.keys(r)
-          headerName.unshift('#')
+            // 横向表头
+            headerName = Object.keys(r)
+            headerName.unshift('#')
 
-          // 纵向表头
-          headerName.forEach(i => {
-            if (r[i]) {
-              verticalHeader = verticalHeader.concat(Object.keys(r[i]))
-            }
-          })
-          verticalHeader = Array.from(new Set(verticalHeader)).sort() // 去重并排序
+            // 纵向表头
+            headerName.forEach(i => {
+              if (r[i]) {
+                verticalHeader = verticalHeader.concat(Object.keys(r[i]))
+              }
+            })
+            verticalHeader = Array.from(new Set(verticalHeader)).sort() // 去重并排序
 
-          // 遍历数据
-          let listArr = [
-            {
-              en: 'host_ip_list',
-              cn: '威胁IP'
-            },
-            {
-              en: 'receiver_list',
-              cn: '接收者'
-            },
-            {
-              en: 'time_list',
-              cn: '录入时间'
-            },
-            {
-              en: 'virus_list',
-              cn: '病毒事件'
-            }
-          ]
-          verticalHeader.forEach((i, j) => {
-            let dataArrItem = []
-            if (i === listArr[j].en) {
-              dataArrItem.push(listArr[j].cn) // 每行插入纵向表头
-            }
-            for (let m in r) {
-              let item = r[m][i] && r[m][i].length
-                ? r[m][i].join(', ')
-                : '无'
-              dataArrItem.push(item)
-            }
-            dataArr.push(dataArrItem)
-          })
-          this.$exportExcel('报表' + this.$route.query.id, dataArr, headerName)
-        } else {
-          this.$message.warning(res.message)
-        }
-      })
+            // 遍历数据
+            let listArr = [
+              {
+                en: 'host_ip_list',
+                cn: '威胁IP'
+              },
+              {
+                en: 'receiver_list',
+                cn: '接收者'
+              },
+              {
+                en: 'time_list',
+                cn: '录入时间'
+              },
+              {
+                en: 'virus_list',
+                cn: '病毒事件'
+              }
+            ]
+            verticalHeader.forEach((i, j) => {
+              let dataArrItem = []
+              if (i === listArr[j].en) {
+                dataArrItem.push(listArr[j].cn) // 每行插入纵向表头
+              }
+              for (let m in r) {
+                let item = r[m][i] && r[m][i].length
+                  ? r[m][i].join(', ')
+                  : '无'
+                dataArrItem.push(item)
+              }
+              dataArr.push(dataArrItem)
+            })
+            this.$exportExcel('报表' + this.$route.query.id, dataArr, headerName)
+          } else {
+            this.$message.warning(res.message)
+          }
+        })
+      }
     },
     downloadHtml () {
-      var content = document.querySelector('.tableShow').outerHTML
-      // 创建隐藏的可下载链接
-      var eleLink = document.createElement('a')
-      eleLink.style.display = 'none'
-      eleLink.download = '报表' + this.$route.query.id + '.html'
-      // 字符内容转变成blob地址
-      var blob = new Blob([content])
-      eleLink.href = URL.createObjectURL(blob)
-      // 触发点击
-      document.body.appendChild(eleLink)
-      eleLink.click()
-      // 移除
-      document.body.removeChild(eleLink)
+      if (localStorage.userClass !== '2') {
+        this.$message.warning('您没有此项权限！')
+      } else {
+        var content = document.querySelector('.tableShow').outerHTML
+        // 创建隐藏的可下载链接
+        var eleLink = document.createElement('a')
+        eleLink.style.display = 'none'
+        eleLink.download = '报表' + this.$route.query.id + '.html'
+        // 字符内容转变成blob地址
+        var blob = new Blob([content])
+        eleLink.href = URL.createObjectURL(blob)
+        // 触发点击
+        document.body.appendChild(eleLink)
+        eleLink.click()
+        // 移除
+        document.body.removeChild(eleLink)
+      }
     }
   },
   mounted () {

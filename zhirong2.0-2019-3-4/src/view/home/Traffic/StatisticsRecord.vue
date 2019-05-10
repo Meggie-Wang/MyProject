@@ -332,7 +332,7 @@ export default {
     },
     pageChange (val) {
       this.currentPage = val
-      this.init(this.statisticsTypeOption[this.statisticsType - 1].value, this.currentPage = 1)
+      this.init(this.statisticsTypeOption[this.statisticsType - 1].value, this.currentPage)
     }
   },
   mounted () {

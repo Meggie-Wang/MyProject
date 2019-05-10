@@ -9,7 +9,7 @@
             $tokenName !== 'gtd' &&
             $tokenName !== 'zhirong'"
           class="el-button print-btn el-button--default"
-          @click="$common.print()">导出/打印</button>
+          @click="goPrint()">导出/打印</button>
       </div>
 
       <el-collapse v-model="activeNames">
@@ -974,6 +974,13 @@ export default {
     }
   },
   methods: {
+    goPrint () {
+      if (localStorage.userClass === '3') {
+        this.$message.warning('您没有此项权限！')
+      } else {
+        this.$common.print()
+      }
+    },
     predictResultMore (pr) {
       let res = null
       if (this.predictResultShowMore) {

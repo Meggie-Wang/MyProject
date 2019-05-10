@@ -80,7 +80,7 @@
             v-else
             label="检测状态"
             width="160">
-            <template slot-scope="scope">{{ scope.row.detect_status === 0 ? '等待预处理检测' : (scope.row.detect_status === 1 ? '等待动态检测' : (scope.row.detect_status === 2 ? '正在预处理检测' : '正在动态检测')) }}</template>
+            <template slot-scope="scope">{{ scope.row.detect_status === 0 ? '等待预处理检测' : (scope.row.detect_status === 1 ? '等待深度分析' : (scope.row.detect_status === 2 ? '正在预处理检测' : '正在深度分析')) }}</template>
           </el-table-column>
 
           <el-table-column

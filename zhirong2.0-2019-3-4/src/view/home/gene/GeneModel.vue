@@ -3,13 +3,14 @@
     <div class="gene-model-con">
       <section class="upload-model">
         <div class="__text-right">
-        <label for="uploadAct" class="__handCursor __btn __btn-big __btn-primary">导入家族模型</label>
+        <label for="uploadAct" class="__handCursor __btn __btn-big __btn-primary" @click="isDisabled()">导入家族模型</label>
         <form id="form">
           <input
           type="file"
           id="uploadAct"
           directory
           multiple="multiple"
+          :disabled="userClass === '3'"
           hidden
           @change="uploadBtn($event)"/>
         </form>
@@ -98,7 +99,8 @@ export default {
       progress: 0,
       currentPage: 1,
       sels: [],
-      check: []
+      check: [],
+      userClass: localStorage.userClass
     }
   },
   watch: {
@@ -112,6 +114,11 @@ export default {
     }
   },
   methods: {
+    isDisabled () {
+      if (this.userClass === '3') {
+        this.$message.warning('您没有此项权限')
+      }
+    },
     // 获取当前选中行
     selsChange (sels) {
       this.sels = sels

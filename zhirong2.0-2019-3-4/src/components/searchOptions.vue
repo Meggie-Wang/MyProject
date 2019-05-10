@@ -280,7 +280,7 @@
             <img
               :src="$img.add"
               :style="{transform: addTagCon ? 'rotate(45deg)' : 'rotate(0deg)'}"
-              @click="addTagCon = !addTagCon; tagConIcon()"/>
+              @click="addTagConShow()"/>
             <span v-if="addTagCon" @click="tagConIcon">
               <input
                 type="text"
@@ -497,6 +497,14 @@ export default {
     }
   },
   methods: {
+    addTagConShow () {
+      if (localStorage.userClass === '3') {
+        this.$message.warning('您没有此项权限！')
+      } else {
+        this.addTagCon = !this.addTagCon
+        this.tagConIcon()
+      }
+    },
     tagConIcon (e) {
       event.stopPropagation()
     },

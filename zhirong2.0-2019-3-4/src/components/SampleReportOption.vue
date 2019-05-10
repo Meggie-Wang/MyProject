@@ -31,7 +31,7 @@
           :value="item.value">
         </el-option>
       </el-select>
-      <button class="el-button print-btn el-button--default" @click="$common.print()">导出/打印</button>
+      <button class="el-button print-btn el-button--default" @click="goPrint()">导出/打印</button>
     </section>
   </div>
 </template>
@@ -78,12 +78,23 @@ export default {
     }
   },
   methods: {
+    goPrint () {
+      if (localStorage.userClass === '3') {
+        this.$message.warning('您没有此项权限！')
+      } else {
+        this.$common.print()
+      }
+    },
     importLevelAct (j) {
-      this.indexJ = Number(j)
-      this.$store.dispatch('setFileImportLevel', {
-        important_level: this.indexJ,
-        id: this.$route.query.id
-      })
+      if (localStorage.userClass === '3') {
+        this.$message.warning('您没有此项权限！')
+      } else {
+        this.indexJ = Number(j)
+        this.$store.dispatch('setFileImportLevel', {
+          important_level: this.indexJ,
+          id: this.$route.query.id
+        })
+      }
     },
     changeBox (val) {
       // 更新url

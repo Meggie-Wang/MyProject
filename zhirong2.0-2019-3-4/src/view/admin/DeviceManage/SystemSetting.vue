@@ -322,11 +322,11 @@ export default {
         obj.process = '1'
         obj.config = '1'
         obj.hardware = '1'
+        this.loading = true
+        this.processLoading = true
         this.$api.get('self_check', obj).then((res) => {
           if (res.status === 200) {
             setTimeout(() => {
-              this.loading = true
-              this.processLoading = true
               this.programLoaclData = res.data.process_check.local_error_process
               this.programLoaclData.forEach((i, j) => {
                 if (i[Object.keys(this.programLoaclData[j])[0]].status !== 'OK') {

@@ -7,7 +7,7 @@
     </div>
     <div class="ReportDetail_container">
       <div>
-        <el-button class="print-btn" @click="$common.print()">导出/打印</el-button>
+        <el-button class="print-btn" @click="goPrint()">导出/打印</el-button>
         <div class="title">
           <h1 v-if="Number($route.query.type) === 1">{{ $route.query.title }}分析报告</h1>
           <h1 v-else>{{ $route.query.title.split('-->')[0] }}至{{ $route.query.title.split('-->')[1] }}分析报告</h1>
@@ -425,6 +425,13 @@ export default {
     }
   },
   methods: {
+    goPrint () {
+      if (localStorage.userClass === '3') {
+        this.$message.warning('您没有此项权限！')
+      } else {
+        this.$common.print()
+      }
+    },
     handleSelectionChange () {},
     CheckReport (md5, malicious, id, importLevel) {
       if (this.$tokenName === 'gtd' || this.$tokenName === 'zhirong') {

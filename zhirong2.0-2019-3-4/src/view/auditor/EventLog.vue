@@ -157,6 +157,7 @@ export default {
   },
   mounted () {
     this.init(this.$route.query.pageNo)
+    this.currentPage = Number(this.$route.query.pageNo) || 1
   }
 }
 </script>

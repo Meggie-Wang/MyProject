@@ -3,7 +3,7 @@
     <h2>白名单设置</h2>
     <div>
       <span style="display: block; font-size: 1.5rem;text-align: center;color: #315697;margin: 1rem 0;">
-        {{whiteListBtn === '0' ? (whiteList.length === 0 ? '开启白名单功能，并会把本次访问IP加入白名单' : '开启白名单功能，若本次访问IP不在白名单内，将无法继续访问系统') : '关闭白名单功能，所有IP 均可访问系统'}}
+        {{whiteListBtn === '0' ? (whiteList.length === 0 ? '开启白名单功能，并会把本次访问IP加入白名单' : '开启白名单功能，若本次访问IP不在白名单内，将无法继续访问系统') : '关闭白名单功能，任意IP 均可访问系统'}}
       </span>
     </div>
     <div style="display: flex;justify-content: space-between;">
